@@ -1,131 +1,143 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChefHat, Bike, Crown, User, KeyRound, ArrowRight, ArrowLeft } from 'lucide-react'
+import { ChefHat, Truck, ShieldCheck, AlertCircle, ArrowRight, Lock } from 'lucide-react'
+import { setStaffRole } from '@/lib/session'
 
-type Role = 'chef' | 'delivery' | 'owner'
+type StaffRoleId = 'chef' | 'delivery' | 'owner'
 
-const roleConfig: Record<Role, { label: string; icon: typeof ChefHat; accent: string; user: string; key: string; dest: string }> = {
-  chef: { label: 'Chef', icon: ChefHat, accent: 'bg-tangerine text-cream', user: 'chef', key: 'CHEF-1234', dest: '/chef' },
-  delivery: { label: 'Delivery', icon: Bike, accent: 'bg-mahogany text-cream', user: 'delivery', key: 'DEL-1234', dest: '/delivery' },
-  owner: { label: 'Owner', icon: Crown, accent: 'bg-gold text-mahogany', user: 'owner', key: 'OWNER-1234', dest: '/owner' },
+const ROLE_TABS: { id: StaffRoleId; label: string; icon: typeof ChefHat }[] = [
+  { id: 'chef', label: 'Chef', icon: ChefHat },
+  { id: 'delivery', label: 'Delivery', icon: Truck },
+  { id: 'owner', label: 'Owner', icon: ShieldCheck },
+]
+
+const STAFF_USERNAMES: Record<StaffRoleId, string> = {
+  chef: 'chef',
+  delivery: 'delivery',
+  owner: 'owner',
+}
+
+const STAFF_PASSKEYS: Record<StaffRoleId, string> = {
+  chef: 'CHEF-1234',
+  delivery: 'DEL-1234',
+  owner: 'OWNER-1234',
+}
+
+const STAFF_ROUTES: Record<StaffRoleId, string> = {
+  chef: '/chef',
+  delivery: '/delivery',
+  owner: '/owner',
+}
+
+const inputClass =
+  'w-full rounded-xl border border-stone-700 bg-stone-900 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 outline-none transition-colors focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30'
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-sm font-semibold text-stone-300">{label}</span>
+      {children}
+    </label>
+  )
 }
 
 export default function StaffLoginPage() {
   const router = useRouter()
-  const [role, setRole] = useState<Role>('chef')
+  const [activeRole, setActiveRole] = useState<StaffRoleId>('chef')
   const [username, setUsername] = useState('')
   const [passkey, setPasskey] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
-  const handleRoleChange = (r: Role) => {
-    setRole(r)
-    setError('')
+  const switchRole = (role: StaffRoleId) => {
+    setActiveRole(role)
+    setError(null)
     setUsername('')
     setPasskey('')
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError('')
-
-    const cfg = roleConfig[role]
-    if (username.trim() !== cfg.user || passkey.trim() !== cfg.key) {
+    if (username.trim() !== STAFF_USERNAMES[activeRole] || passkey.trim() !== STAFF_PASSKEYS[activeRole]) {
       setError('invalid key')
       return
     }
-    router.push(cfg.dest)
+    setError(null)
+    setStaffRole(activeRole)
+    router.push(STAFF_ROUTES[activeRole])
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-cream px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold text-2xl font-bold text-mahogany font-serif soft-shadow">Y</span>
-          <h1 className="mt-4 font-serif text-2xl font-bold text-mahogany">Staff Login</h1>
-          <p className="mt-1 text-sm text-mahogany-soft">Sign in to your dashboard</p>
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-stone-950 via-stone-900 to-stone-950 px-4 py-12">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-stone-800 bg-stone-950 shadow-2xl">
+        <div className="border-b border-stone-800 bg-gradient-to-r from-amber-600 to-red-600 px-6 py-6 text-center text-white">
+          <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/15">
+            <Lock className="h-5 w-5" />
+          </div>
+          <h1 className="font-serif text-xl font-bold">Staff Access Portal</h1>
+          <p className="mt-1 text-xs text-amber-50/90">Authorized personnel only</p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 soft-shadow-lg sm:p-8">
-          <div className="mb-6 grid grid-cols-3 gap-2">
-            {(Object.keys(roleConfig) as Role[]).map((r) => {
-              const cfg = roleConfig[r]
-              const Icon = cfg.icon
-              const isActive = role === r
-              return (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => handleRoleChange(r)}
-                  className={`flex flex-col items-center gap-1.5 rounded-xl border px-2 py-3 text-xs font-semibold transition-all ${
-                    isActive
-                      ? `${cfg.accent} border-transparent soft-shadow`
-                      : 'border-border bg-cream text-mahogany-soft hover:border-gold hover:text-mahogany'
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  {cfg.label}
-                </button>
-              )
-            })}
-          </div>
+        <div className="grid grid-cols-3 gap-1 border-b border-stone-800 bg-stone-900/60 p-2">
+          {ROLE_TABS.map(({ id, label, icon: Icon }) => {
+            const isActive = activeRole === id
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => switchRole(id)}
+                aria-pressed={isActive}
+                className={`flex flex-col items-center gap-1 rounded-xl px-2 py-2.5 text-xs font-semibold transition-colors ${
+                  isActive ? 'bg-red-600 text-white shadow-sm' : 'text-stone-400 hover:bg-stone-800'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {label}
+              </button>
+            )
+          })}
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm font-semibold text-mahogany">Username</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mahogany-soft" />
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder={`Enter username (${role})`}
-                  className="w-full rounded-xl border border-border bg-cream pl-10 pr-4 py-3 text-sm text-mahogany placeholder:text-mahogany-soft/60 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/30"
-                />
-              </div>
+        <div className="p-6 sm:p-8">
+          {error && (
+            <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-800 bg-red-950/50 px-4 py-3 text-sm font-medium text-red-400">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {error}
             </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-semibold text-mahogany">Passkey</label>
-              <div className="relative">
-                <KeyRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mahogany-soft" />
-                <input
-                  type="text"
-                  value={passkey}
-                  onChange={(e) => setPasskey(e.target.value)}
-                  placeholder="Enter passkey"
-                  className="w-full rounded-xl border border-border bg-cream pl-10 pr-4 py-3 text-sm text-mahogany placeholder:text-mahogany-soft/60 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/30"
-                />
-              </div>
-            </div>
+          )}
 
-            {error && (
-              <p className="rounded-lg bg-tangerine/10 px-4 py-2.5 text-sm font-semibold text-tangerine">
-                {error}
-              </p>
-            )}
-
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <Field label="Username">
+              <input
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder={STAFF_USERNAMES[activeRole]}
+                className={inputClass}
+              />
+            </Field>
+            <Field label="Passkey">
+              <input
+                type="password"
+                required
+                value={passkey}
+                onChange={(e) => setPasskey(e.target.value)}
+                placeholder="XXXX-1234"
+                className={inputClass}
+              />
+            </Field>
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-tangerine px-6 py-3.5 text-sm font-semibold text-cream shadow-[0_14px_30px_rgba(228,87,46,0.3)] transition-transform hover:-translate-y-0.5"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-red-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/30 transition-transform hover:-translate-y-0.5"
             >
-              Sign In as {roleConfig[role].label}
+              Enter {activeRole.charAt(0).toUpperCase() + activeRole.slice(1)} Dashboard
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>
-
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <a href="/" className="inline-flex items-center gap-1.5 text-sm font-medium text-mahogany-soft transition-colors hover:text-tangerine">
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Home
-            </a>
-            <span className="text-border">|</span>
-            <a href="/login" className="text-sm font-medium text-mahogany-soft transition-colors hover:text-tangerine">
-              Customer Login
-            </a>
-          </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
