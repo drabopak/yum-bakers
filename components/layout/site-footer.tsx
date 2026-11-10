@@ -15,9 +15,6 @@ export function SiteFooter() {
             <a href="#menu" className="text-cream/80 transition-colors hover:text-gold">
               Menu
             </a>
-            <a href="#inquiry" className="text-cream/80 transition-colors hover:text-gold">
-              Event Planning
-            </a>
             <a href="#branches" className="text-cream/80 transition-colors hover:text-gold">
               Branches
             </a>

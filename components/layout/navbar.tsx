@@ -8,7 +8,6 @@ import { useAuth } from '@/context/auth-context'
 
 const NAV_LINKS = [
   { href: '#menu', label: 'Menu' },
-  { href: '#inquiry', label: 'Event Planning' },
   { href: '#branches', label: 'Branches' },
 ]
 

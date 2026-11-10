@@ -41,10 +41,10 @@ export function Hero() {
               <ChevronDown className="h-4 w-4" />
             </a>
             <a
-              href="#inquiry"
+              href="#branches"
               className="inline-flex items-center rounded-full border-2 border-gold bg-transparent px-7 py-3.5 text-sm font-semibold text-mahogany transition-colors hover:bg-gold/15"
             >
-              Plan an Event
+              Find a Branch
             </a>
           </div>
 
