@@ -14,7 +14,11 @@ type YTNamespace = {
       width: string
       height: string
       playerVars: Record<string, number>
-      events: { onReady?: (event: { target: YTPlayer & { playVideo: () => void } }) => void; onStateChange?: (event: { data: number }) => void }
+      events: {
+        onReady?: (event: { target: YTPlayer & { playVideo: () => void } }) => void
+        onStateChange?: (event: { data: number }) => void
+        onError?: () => void
+      }
     },
   ) => YTPlayer
   PlayerState: { ENDED: number }
@@ -70,6 +74,7 @@ export function IntroVideo() {
         playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, modestbranding: 1, rel: 0, disablekb: 1 },
         events: {
           onReady: (event) => event.target.playVideo(),
+          onError: () => finishRef.current(),
           onStateChange: (event) => {
             if (event.data === YT.PlayerState.ENDED) finishRef.current()
           },
