@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Plus, Check } from 'lucide-react'
 import { categories, type MenuItem } from '@/data/yum-data'
 import { useCart, formatRs } from '@/components/cart/cart-context'
+import { flyToCart } from '@/components/cart/fly-to-cart'
 import { playAdd, playTick } from '@/lib/sounds'
 
 export function MenuSection() {
@@ -59,27 +60,31 @@ export function MenuSection() {
         className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         {activeCategory.items.map((item, i) => (
-          <MenuCard key={item.id} item={item} index={i} />
+          <MenuCard key={item.id} item={item} index={i} featured={!!activeCategory.featured} />
         ))}
       </div>
     </section>
   )
 }
 
-function MenuCard({ item, index }: { item: MenuItem; index: number }) {
+function MenuCard({ item, index, featured }: { item: MenuItem; index: number; featured: boolean }) {
   const { add } = useCart()
   const [added, setAdded] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const handleAdd = () => {
     add(item)
     playAdd()
+    if (buttonRef.current) flyToCart(buttonRef.current)
     setAdded(true)
     setTimeout(() => setAdded(false), 1200)
   }
 
   return (
     <article
-      className="tilt-card fade-up group flex flex-col overflow-hidden rounded-3xl border border-border bg-card soft-shadow"
+      className={`tilt-card fade-up group flex flex-col overflow-hidden rounded-3xl border bg-card soft-shadow ${
+        featured ? 'border-gold/70 ring-1 ring-gold/30' : 'border-border'
+      }`}
       style={{ animationDelay: `${index * 60}ms` }}
     >
       <div className="relative h-52 overflow-hidden">
@@ -100,6 +105,7 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
         <p className="mt-2 flex-1 text-sm leading-relaxed text-mahogany-soft">{item.description}</p>
 
         <button
+          ref={buttonRef}
           type="button"
           onClick={handleAdd}
           aria-live="polite"

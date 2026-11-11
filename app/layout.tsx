@@ -26,9 +26,9 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Yum Bakers & Sweets — Celebrate Your Happy Moments',
+  title: 'Urban Bites — Where Street Hustle, Meet Royal Taste',
   description:
-    'Yum Bakers & Sweets — customized cakes, mithai, crispy fried chicken and fresh dairy across 7 branches. Since 1998, Pure for Sure.',
+    'Urban Bites — burgers, wood-fired pizzas, crispy fried chicken and fresh mithai across 7 branches.',
   generator: 'v0.app',
 }
 

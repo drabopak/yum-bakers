@@ -4,12 +4,11 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <div className="flex flex-col items-center gap-4 text-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold text-2xl font-bold text-mahogany font-serif">
-            Y
+            U
           </span>
-          <h3 className="font-serif text-2xl font-bold">Yum Bakers &amp; Sweets</h3>
+          <h3 className="font-serif text-2xl font-bold">Urban Bites</h3>
           <p className="max-w-md text-sm leading-relaxed text-cream/70">
-            Baking happy moments since 1998. Customized cakes, mithai, crispy fried chicken and
-            fresh dairy — Pure for Sure.
+            Where street hustle meets royal taste. Burgers, wood-fired pizzas, crispy fried chicken and fresh mithai, served fast.
           </p>
           <nav className="mt-2 flex flex-wrap justify-center gap-6 text-sm font-medium">
             <a href="#menu" className="text-cream/80 transition-colors hover:text-gold">
@@ -21,7 +20,7 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="mt-10 flex flex-col items-center gap-2 border-t border-cream/15 pt-6 text-center text-xs text-cream/60">
-          <span>© {new Date().getFullYear()} Yum Bakers &amp; Sweets. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Urban Bites. All rights reserved.</span>
           <a href="/staff-login" className="text-cream/25 transition-colors hover:text-cream/50">
             Staff Portal
           </a>

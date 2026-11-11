@@ -21,14 +21,14 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:px-6">
         <a href="#top" className="flex shrink-0 items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold text-lg font-bold text-mahogany shadow-[0_6px_16px_rgba(224,159,62,0.4)] font-serif">
-            Y
+            U
           </span>
           <span className="hidden leading-tight sm:block">
             <span className="block font-serif text-lg font-bold text-mahogany">
-              Yum Bakers &amp; Sweets
+              Urban Bites
             </span>
             <span className="block text-[11px] font-medium tracking-wide text-mahogany-soft">
-              Since 1998 — Pure for Sure
+              Meet Royal Taste
             </span>
           </span>
         </a>
@@ -78,6 +78,7 @@ export function Navbar() {
 
           <button
             type="button"
+            data-cart-target
             onClick={openCart}
             aria-label={`Open cart, ${count} items`}
             className="relative flex items-center gap-2 rounded-full bg-mahogany px-3.5 py-2.5 text-sm font-semibold text-cream transition-transform hover:scale-105 sm:px-4"

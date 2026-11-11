@@ -154,3 +154,80 @@
 .cart-bump {
   animation: cart-bump 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+@keyframes burger-roll {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -45vh, 0) rotateY(720deg) scale(0.6);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateY(0) scale(1);
+  }
+}
+.burger-roll {
+  animation: burger-roll 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+@keyframes tagline-snap {
+  0% {
+    opacity: 0;
+    transform: scale(1.25) translateY(-12px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.tagline-snap {
+  animation: tagline-snap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes phrase-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.phrase-fade {
+  animation: phrase-fade 0.6s ease-out both;
+}
+
+@keyframes ninja-bob {
+  from {
+    transform: translateY(0) rotate(-3deg);
+  }
+  to {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+.ninja-body {
+  animation: ninja-bob 0.35s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes gold-shine {
+  to {
+    background-position: 200% center;
+  }
+}
+.gold-shine {
+  background: linear-gradient(100deg, #b8860b 0%, #f7d774 35%, #fff3c4 50%, #f7d774 65%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: tagline-snap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both, gold-shine 3.5s linear 0.5s infinite;
+}

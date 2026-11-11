@@ -38,7 +38,7 @@ function LoginForm() {
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 px-4 py-12">
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-xl shadow-amber-900/5">
         <div className="border-b border-amber-100 bg-gradient-to-r from-amber-500 to-red-500 px-6 py-8 text-center text-white">
-          <h1 className="font-serif text-2xl font-bold">Yum Bakers &amp; Sweets</h1>
+          <h1 className="font-serif text-2xl font-bold">Urban Bites</h1>
           <p className="mt-1 text-sm text-amber-50">Sign in to your account</p>
         </div>
 

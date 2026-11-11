@@ -1,117 +1,113 @@
 'use client'
 
-import { Sparkles, ChevronDown } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
+import { hasSeenIntro, INTRO_DONE_EVENT } from '@/lib/intro'
+
+const BURGER_IMAGE =
+  'https://images.pexels.com/photos/23910856/pexels-photo-23910856.jpeg?auto=compress&cs=tinysrgb&h=650&w=940'
 
 export function Hero() {
+  const [ready, setReady] = useState(false)
+  const burgerFadeRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (hasSeenIntro()) setReady(true)
+    const onIntroDone = () => setReady(true)
+    window.addEventListener(INTRO_DONE_EVENT, onIntroDone)
+    return () => window.removeEventListener(INTRO_DONE_EVENT, onIntroDone)
+  }, [])
+
+  useEffect(() => {
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const burger = burgerFadeRef.current
+      if (!burger) return
+      const progress = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.8), 0), 1)
+      burger.style.opacity = String(1 - progress)
+    }
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [])
+
   return (
-    <section id="top" className="relative overflow-hidden">
-      {/* warm gradient wash */}
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0b0b0c] text-white"
+    >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(60% 55% at 82% 18%, rgba(224,159,62,0.20), transparent 60%), radial-gradient(50% 50% at 10% 90%, rgba(228,87,46,0.12), transparent 55%)',
+            'radial-gradient(55% 60% at 75% 45%, rgba(224,159,62,0.22), transparent 65%), radial-gradient(40% 40% at 10% 100%, rgba(228,87,46,0.14), transparent 60%)',
         }}
       />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:py-20 lg:gap-6">
-        <div className="fade-up">
-          <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold-soft/50 px-4 py-1.5 text-sm font-semibold text-mahogany">
-            <Sparkles className="h-4 w-4 text-gold" />
-            Since 1998 — Pure for Sure
-          </span>
-
-          <h1 className="mt-6 text-balance font-serif text-4xl font-extrabold leading-[1.05] text-mahogany sm:text-5xl lg:text-6xl">
-            Celebrate Your Happy Moments With{' '}
-            <span className="text-tangerine">YUM!</span>
-          </h1>
-
-          <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-mahogany-soft sm:text-lg">
-            What we bake, fry and serve fresh. Four counters, one bakery. Pick a category to see
-            what&apos;s on today.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href="#menu"
-              className="inline-flex items-center gap-2 rounded-full bg-tangerine px-7 py-3.5 text-sm font-semibold text-cream shadow-[0_14px_30px_rgba(228,87,46,0.35)] transition-transform hover:-translate-y-0.5 hover:scale-[1.03]"
-            >
-              Explore the Menu
-              <ChevronDown className="h-4 w-4" />
-            </a>
-            <a
-              href="#branches"
-              className="inline-flex items-center rounded-full border-2 border-gold bg-transparent px-7 py-3.5 text-sm font-semibold text-mahogany transition-colors hover:bg-gold/15"
-            >
-              Find a Branch
-            </a>
-          </div>
-
-          <div className="mt-10 flex items-center gap-8">
-            <Stat value="7" label="Branches" />
-            <span className="h-10 w-px bg-border" />
-            <Stat value="25+" label="Years fresh" />
-            <span className="h-10 w-px bg-border" />
-            <Stat value="4" label="Counters" />
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-6 py-24 md:grid-cols-2 lg:gap-16">
+        <div
+          ref={burgerFadeRef}
+          className="relative order-1 mx-auto w-full max-w-[min(88vw,520px)] md:order-2"
+          style={{ perspective: '1400px' }}
+        >
+          <div className={ready ? 'burger-roll' : 'opacity-0'}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={BURGER_IMAGE}
+              alt="Signature gourmet burger"
+              className="aspect-square w-full rounded-full object-cover shadow-[0_40px_80px_rgba(0,0,0,0.6)] ring-1 ring-gold/30"
+            />
           </div>
         </div>
 
-        {/* Floating 3D image cluster */}
-        <div className="relative h-[360px] sm:h-[440px] md:h-[520px]">
-          <FloatImage
-            src="/images/celebration-cake.png"
-            alt="Custom celebration cake"
-            className="left-2 top-2 h-56 w-56 blob-1 float-a sm:h-64 sm:w-64"
-          />
-          <FloatImage
-            src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80"
-            alt="Wood-fired pizza"
-            className="right-0 top-16 h-48 w-48 blob-2 float-b sm:h-56 sm:w-56"
-          />
-          <FloatImage
-            src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80"
-            alt="Gulab jamun mithai"
-            className="bottom-2 left-16 h-44 w-44 blob-3 float-b sm:h-52 sm:w-52"
-          />
-          <FloatImage
-            src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=600&q=80"
-            alt="Crispy fried chicken combo"
-            className="bottom-8 right-6 h-40 w-40 blob-1 float-a sm:h-48 sm:w-48"
-          />
+        <div className="order-2 text-center md:order-1 md:text-left">
+          <p
+            className={`text-xs font-semibold uppercase tracking-[0.35em] text-gold ${
+              ready ? 'tagline-snap' : 'opacity-0'
+            }`}
+          >
+            Urban Bites
+          </p>
+          <h1 className="mt-5 font-serif text-[2.6rem] font-black uppercase leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            <span className={`block text-white ${ready ? 'tagline-snap' : 'opacity-0'}`}>
+              Where Street Hustle
+            </span>
+            <span
+              className={`gold-shine block ${ready ? 'tagline-snap' : 'opacity-0'}`}
+              style={{ animationDelay: '0.25s' }}
+            >
+              Meet Royal Taste
+            </span>
+          </h1>
+          <p
+            className={`mx-auto mt-6 max-w-md text-pretty text-base leading-relaxed text-white/70 md:mx-0 sm:text-lg ${
+              ready ? 'tagline-snap' : 'opacity-0'
+            }`}
+            style={{ animationDelay: '0.45s' }}
+          >
+            Smash burgers, stacked pizzas and crispy fried chicken, crafted for the bold and
+            served fast.
+          </p>
+          <a
+            href="#menu"
+            className={`mt-10 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-semibold text-[#0b0b0c] shadow-[0_14px_30px_rgba(224,159,62,0.35)] transition-transform hover:-translate-y-0.5 hover:scale-[1.03] ${
+              ready ? 'tagline-snap' : 'opacity-0'
+            }`}
+            style={{ animationDelay: '0.6s' }}
+          >
+            Explore the Menu
+            <ChevronDown className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>
-  )
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <div className="font-serif text-2xl font-bold text-gold">{value}</div>
-      <div className="text-xs font-medium uppercase tracking-wide text-mahogany-soft">{label}</div>
-    </div>
-  )
-}
-
-function FloatImage({
-  src,
-  alt,
-  className,
-}: {
-  src: string
-  alt: string
-  className: string
-}) {
-  return (
-    <div className={`absolute overflow-hidden bg-card soft-shadow-lg ring-4 ring-cream ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src || '/placeholder.svg'}
-        alt={alt}
-        loading="eager"
-        className="h-full w-full object-cover"
-      />
-    </div>
   )
 }

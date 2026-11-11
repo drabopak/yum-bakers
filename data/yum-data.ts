@@ -10,10 +10,43 @@ export type Category = {
   id: string
   label: string
   tagline: string
+  featured?: boolean
   items: MenuItem[]
 }
 
 export const categories: Category[] = [
+  {
+    id: 'deals',
+    label: 'Deals & Family Packs',
+    tagline: 'Bundles built for sharing',
+    featured: true,
+    items: [
+      {
+        id: 'bucket-8pc',
+        name: '8-Piece Family Bucket',
+        description: 'A full bucket of signature fried chicken for the family.',
+        price: 2100,
+        image:
+          'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+      },
+      {
+        id: 'meal-4pc',
+        name: '4-Piece Value Meal',
+        description: 'Four juicy pieces with fries, coleslaw and drink.',
+        price: 1150,
+        image:
+          'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
+      },
+      {
+        id: 'combo-2pc',
+        name: '2-Piece Signature Combo',
+        description: 'Two crispy fried pieces with fries and a dip.',
+        price: 650,
+        image:
+          'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=600&q=80',
+      },
+    ],
+  },
   {
     id: 'cakes',
     label: 'Customized Cakes',
@@ -122,30 +155,6 @@ export const categories: Category[] = [
     tagline: 'Hot, crunchy and freshly fried',
     items: [
       {
-        id: 'combo-2pc',
-        name: '2-Piece Signature Combo',
-        description: 'Two crispy fried pieces with fries and a dip.',
-        price: 650,
-        image:
-          'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=600&q=80',
-      },
-      {
-        id: 'meal-4pc',
-        name: '4-Piece Value Meal',
-        description: 'Four juicy pieces with fries, coleslaw and drink.',
-        price: 1150,
-        image:
-          'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
-      },
-      {
-        id: 'bucket-8pc',
-        name: '8-Piece Family Bucket',
-        description: 'A full bucket of signature fried chicken for the family.',
-        price: 2100,
-        image:
-          'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
-      },
-      {
         id: 'zinger-burger',
         name: 'Crunchy Zinger Burger',
         description: 'Crispy fillet, fresh lettuce and creamy sauce in a soft bun.',
@@ -160,6 +169,21 @@ export const categories: Category[] = [
         price: 560,
         image:
           'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=80',
+      },
+    ],
+  },
+  {
+    id: 'pizzas',
+    label: 'Wood-Fired Pizzas',
+    tagline: 'Hand-stretched and bubbling hot',
+    items: [
+      {
+        id: 'pizza-showcase',
+        name: 'Wood-Fired Pizza',
+        description: 'Hand-stretched dough, rich sauce and bubbling cheese.',
+        price: 990,
+        image:
+          'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
       },
     ],
   },
@@ -199,14 +223,6 @@ export const categories: Category[] = [
         price: 420,
         image:
           'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80',
-      },
-      {
-        id: 'pizza-showcase',
-        name: 'Wood-Fired Pizza',
-        description: 'Hand-stretched dough, rich sauce and bubbling cheese.',
-        price: 990,
-        image:
-          'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
       },
     ],
   },
