@@ -231,3 +231,48 @@
   color: transparent;
   animation: tagline-snap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both, gold-shine 3.5s linear 0.5s infinite;
 }
+
+.urban-menu {
+  background: #0b0b0c;
+  color: white;
+}
+.menu-dashboard-card {
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+}
+.menu-dashboard-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.menu-dashboard-card:hover::after,
+.menu-dashboard-card.is-active::after {
+  opacity: 1;
+}
+.menu-dashboard-detail {
+  animation: menu-detail-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes menu-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.menu-item-card {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.menu-item-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(224, 159, 62, 0.5);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.32);
+}

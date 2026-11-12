@@ -1,73 +1,185 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { Plus, Check } from 'lucide-react'
-import { categories, type MenuItem } from '@/data/yum-data'
+import {
+  Check,
+  ChevronRight,
+  Flame,
+  Gift,
+  Hamburger,
+  Pizza,
+  Sandwich,
+  Soup,
+  Utensils,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import type { MenuItem } from '@/data/yum-data'
 import { useCart, formatRs } from '@/components/cart/cart-context'
 import { flyToCart } from '@/components/cart/fly-to-cart'
 import { playAdd, playTick } from '@/lib/sounds'
 
+type DashboardCategory = {
+  id: string
+  label: string
+  eyebrow: string
+  description: string
+  image: string
+  icon: LucideIcon
+  items: MenuItem[]
+}
+
+const dashboardCategories: DashboardCategory[] = [
+  {
+    id: 'burgers',
+    label: 'Burgers',
+    eyebrow: '01 / Signature stacks',
+    description: 'Smash-grilled patties, glossy buns and sauces made for the first bite.',
+    image: 'https://images.pexels.com/photos/18713424/pexels-photo-18713424.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Hamburger,
+    items: [
+      { id: 'urban-smash', name: 'Urban Smash Burger', description: 'Double beef patty, cheddar, lettuce and house sauce.', price: 850, image: 'https://images.pexels.com/photos/18713424/pexels-photo-18713424.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'grill-chicken-burger', name: 'Grill Chicken Burger', description: 'Charred chicken, fresh greens and smoky mayo.', price: 780, image: 'https://images.pexels.com/photos/4315148/pexels-photo-4315148.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'pizzas',
+    label: 'Pizzas',
+    eyebrow: '02 / Fired to order',
+    description: 'Hand-stretched dough, molten cheese and bold toppings from the oven.',
+    image: 'https://images.pexels.com/photos/5993865/pexels-photo-5993865.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Pizza,
+    items: [
+      { id: 'malai-boti-pizza', name: 'Malai Boti Pizza', description: 'Creamy malai boti, mozzarella and fresh herbs.', price: 1250, image: 'https://images.pexels.com/photos/5993865/pexels-photo-5993865.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'pizza-fries', name: 'Pizza Fries', description: 'Crispy fries layered with pizza sauce and cheese.', price: 650, image: 'https://images.pexels.com/photos/27582703/pexels-photo-27582703.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'deals',
+    label: 'Deals',
+    eyebrow: '03 / More for the table',
+    description: 'Big flavour bundles for late nights, families and hungry crews.',
+    image: 'https://images.pexels.com/photos/32524109/pexels-photo-32524109.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Gift,
+    items: [
+      { id: 'urban-family-deal', name: 'Urban Family Deal', description: 'Burgers, fries, wings and drinks for the whole table.', price: 2850, image: 'https://images.pexels.com/photos/32524109/pexels-photo-32524109.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'midnight-combo', name: 'Midnight Combo', description: 'Two burgers, loaded fries and two chilled drinks.', price: 1850, image: 'https://images.pexels.com/photos/5086624/pexels-photo-5086624.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'fried-chicken',
+    label: 'Fried Chicken',
+    eyebrow: '04 / Crackle & crunch',
+    description: 'Crispy golden chicken seasoned all the way through.',
+    image: 'https://images.pexels.com/photos/6697493/pexels-photo-6697493.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Flame,
+    items: [
+      { id: 'crispy-broast', name: 'Signature Chicken Broast', description: 'Crunchy outside, juicy inside, with our signature dip.', price: 720, image: 'https://images.pexels.com/photos/6697493/pexels-photo-6697493.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'crispy-wings', name: 'Crispy Hot Wings', description: 'Fiery wings tossed in a sticky urban glaze.', price: 620, image: 'https://images.pexels.com/photos/14661492/pexels-photo-14661492.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'fries-pasta',
+    label: 'Fries & Pasta',
+    eyebrow: '05 / Comfort mode',
+    description: 'Crispy sides and rich pasta bowls that never play second fiddle.',
+    image: 'https://images.pexels.com/photos/8917285/pexels-photo-8917285.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Soup,
+    items: [
+      { id: 'loaded-fries', name: 'Loaded Urban Fries', description: 'Seasoned fries, cheese, chicken and signature sauces.', price: 680, image: 'https://images.pexels.com/photos/6697493/pexels-photo-6697493.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'creamy-pasta', name: 'Creamy Chicken Pasta', description: 'Silky pasta, grilled chicken and cracked pepper.', price: 850, image: 'https://images.pexels.com/photos/8917285/pexels-photo-8917285.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'steaks',
+    label: 'Steaks',
+    eyebrow: '06 / From the grill',
+    description: 'Searing heat, tender cuts and a plate built for a slow, good meal.',
+    image: 'https://images.pexels.com/photos/39452689/pexels-photo-39452689.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Utensils,
+    items: [
+      { id: 'mushroom-steak-chicken', name: 'Mushroom Steak - Chicken', description: 'Grilled chicken steak, mushroom sauce and garden vegetables.', price: 1090, image: 'https://images.pexels.com/photos/39452689/pexels-photo-39452689.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'bbq-steak-beef', name: 'BBQ Steak - Beef', description: 'Tender beef steak, BBQ glaze and grilled vegetables.', price: 1490, image: 'https://images.pexels.com/photos/36683019/pexels-photo-36683019.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+  {
+    id: 'wraps-sandwiches',
+    label: 'Wraps & Sandwiches',
+    eyebrow: '07 / Wrapped up',
+    description: 'Fresh, toasted and packed with the kind of flavour you can take anywhere.',
+    image: 'https://images.pexels.com/photos/36750266/pexels-photo-36750266.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    icon: Sandwich,
+    items: [
+      { id: 'urban-beef-wrap', name: 'Urban Beef Wrap', description: 'Seasoned beef, cheese, lettuce and fries in a toasted wrap.', price: 790, image: 'https://images.pexels.com/photos/36750266/pexels-photo-36750266.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+      { id: 'chicken-club', name: 'Chicken Club Sandwich', description: 'Grilled chicken, egg, cheese and crisp greens.', price: 720, image: 'https://images.pexels.com/photos/860620/pexels-photo-860620.jpeg?auto=compress&cs=tinysrgb&h=650&w=940' },
+    ],
+  },
+]
+
 export function MenuSection() {
-  const [active, setActive] = useState(categories[0].id)
-  const activeCategory = categories.find((c) => c.id === active) ?? categories[0]
+  const [activeId, setActiveId] = useState(dashboardCategories[0].id)
+  const activeCategory = dashboardCategories.find((category) => category.id === activeId) ?? dashboardCategories[0]
 
   return (
-    <section id="menu" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-16 sm:px-6 md:py-24">
-      <div className="text-center">
-        <span className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
-          Our Counters
-        </span>
-        <h2 className="mt-3 text-balance font-serif text-3xl font-extrabold text-mahogany sm:text-4xl">
-          Fresh from the four counters
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-pretty leading-relaxed text-mahogany-soft">
-          Pick a category to see what&apos;s on today.
-        </p>
-      </div>
+    <section id="menu" className="urban-menu scroll-mt-20 px-4 py-20 sm:px-6 md:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end">
+          <div>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.35em] text-gold">Made to order</span>
+            <h2 className="mt-3 font-serif text-4xl font-black text-white sm:text-6xl">The Menu</h2>
+          </div>
+          <p className="max-w-xs text-sm leading-relaxed text-white/45 md:text-right">
+            Big flavours, made fresh and ready for your table.
+          </p>
+        </div>
 
-      {/* Category tabs */}
-      <div className="mt-10 flex flex-wrap justify-center gap-3">
-        {categories.map((cat) => {
-          const isActive = cat.id === active
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => {
-                setActive(cat.id)
-                playTick()
-              }}
-              aria-pressed={isActive}
-              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
-                isActive
-                  ? 'bg-tangerine text-cream shadow-[0_12px_24px_rgba(228,87,46,0.3)]'
-                  : 'border border-border bg-card text-mahogany hover:border-gold hover:text-tangerine'
-              }`}
-            >
-              {cat.label}
-            </button>
-          )
-        })}
-      </div>
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+          {dashboardCategories.map((category, index) => {
+            const Icon = category.icon
+            const isActive = category.id === activeId
+            return (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => {
+                  setActiveId(category.id)
+                  playTick()
+                }}
+                aria-pressed={isActive}
+                className={`menu-dashboard-card group relative min-h-32 overflow-hidden rounded-xl border p-4 text-left transition-all duration-300 sm:min-h-40 ${
+                  isActive ? 'is-active border-gold shadow-[0_16px_36px_rgba(224,159,62,0.18)]' : 'border-white/10 hover:-translate-y-1 hover:border-white/30'
+                }`}
+                style={{ backgroundImage: `linear-gradient(180deg, rgba(9,9,10,0.12), rgba(9,9,10,0.94)), url(${category.image})` }}
+              >
+                <span className="absolute right-3 top-3 text-[0.6rem] font-semibold text-white/40">0{index + 1}</span>
+                <Icon className={`relative mt-9 h-5 w-5 transition-colors ${isActive ? 'text-gold' : 'text-white/70 group-hover:text-gold'}`} />
+                <span className="relative mt-3 block text-sm font-semibold leading-tight text-white">{category.label}</span>
+                <span className={`absolute bottom-3 right-3 transition-transform ${isActive ? 'translate-x-0 text-gold' : '-translate-x-2 text-white/0 group-hover:translate-x-0 group-hover:text-gold'}`}>
+                  <ChevronRight className="h-4 w-4" />
+                </span>
+              </button>
+            )
+          })}
+        </div>
 
-      <p className="mt-6 text-center font-serif text-lg italic text-mahogany-soft">
-        {activeCategory.tagline}
-      </p>
-
-      {/* Grid */}
-      <div
-        key={activeCategory.id}
-        className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        {activeCategory.items.map((item, i) => (
-          <MenuCard key={item.id} item={item} index={i} featured={!!activeCategory.featured} />
-        ))}
+        <div key={activeCategory.id} className="menu-dashboard-detail mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+          <div>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-tangerine">{activeCategory.eyebrow}</span>
+            <h3 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">{activeCategory.label}</h3>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/55">{activeCategory.description}</p>
+            <div className="mt-6 h-px w-20 bg-gold" />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {activeCategory.items.map((item, index) => (
+              <MenuCard key={item.id} item={item} index={index} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
-function MenuCard({ item, index, featured }: { item: MenuItem; index: number; featured: boolean }) {
+function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   const { add } = useCart()
   const [added, setAdded] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -77,56 +189,25 @@ function MenuCard({ item, index, featured }: { item: MenuItem; index: number; fe
     playAdd()
     if (buttonRef.current) flyToCart(buttonRef.current)
     setAdded(true)
-    setTimeout(() => setAdded(false), 1200)
+    window.setTimeout(() => setAdded(false), 1200)
   }
 
   return (
-    <article
-      className={`tilt-card fade-up group flex flex-col overflow-hidden rounded-3xl border bg-card soft-shadow ${
-        featured ? 'border-gold/70 ring-1 ring-gold/30' : 'border-border'
-      }`}
-      style={{ animationDelay: `${index * 60}ms` }}
-    >
-      <div className="relative h-52 overflow-hidden">
+    <article className="menu-item-card fade-up group overflow-hidden rounded-2xl border border-white/10 bg-[#171719]" style={{ animationDelay: `${index * 80}ms` }}>
+      <div className="relative h-44 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.image || '/placeholder.svg'}
-          alt={item.name}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <span className="absolute right-3 top-3 rounded-full bg-cream/95 px-3 py-1 text-sm font-bold text-tangerine shadow-sm">
-          {formatRs(item.price)}
-        </span>
+        <img src={item.image} alt={item.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <span className="absolute left-3 top-3 rounded bg-[#0b0b0c]/80 px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-gold">Urban favourite</span>
       </div>
-
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-serif text-xl font-bold text-mahogany">{item.name}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-mahogany-soft">{item.description}</p>
-
-        <button
-          ref={buttonRef}
-          type="button"
-          onClick={handleAdd}
-          aria-live="polite"
-          className={`mt-5 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-            added
-              ? 'bg-tangerine text-cream'
-              : 'bg-gold text-mahogany hover:bg-tangerine hover:text-cream'
-          }`}
-        >
-          {added ? (
-            <>
-              <Check className="h-4 w-4" strokeWidth={2.5} />
-              Added!
-            </>
-          ) : (
-            <>
-              <Plus className="h-4 w-4" strokeWidth={2.5} />
-              Add to Cart
-            </>
-          )}
-        </button>
+      <div className="p-4">
+        <h4 className="font-serif text-lg font-bold text-white">{item.name}</h4>
+        <p className="mt-2 min-h-10 text-xs leading-relaxed text-white/50">{item.description}</p>
+        <div className="mt-5 flex items-center justify-between gap-3">
+          <span className="text-sm font-bold text-gold">{formatRs(item.price)}</span>
+          <button ref={buttonRef} type="button" onClick={handleAdd} className={`rounded-full px-4 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 ${added ? 'bg-emerald-500 text-white' : 'bg-tangerine text-white hover:bg-gold hover:text-[#0b0b0c]'}`}>
+            {added ? <Check className="mx-auto h-4 w-4" /> : 'Order'}
+          </button>
+        </div>
       </div>
     </article>
   )
