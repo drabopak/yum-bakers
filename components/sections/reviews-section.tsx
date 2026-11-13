@@ -83,13 +83,13 @@ export function ReviewsSection() {
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-gold">
             Customer Reviews
           </span>
-          <h2 className="mx-auto mt-4 max-w-3xl text-balance font-serif text-4xl font-black uppercase leading-[1.05] text-mahogany sm:text-5xl">
+          <h2 className="mx-auto mt-4 max-w-3xl text-balance font-serif text-3xl font-black uppercase leading-[1.1] text-mahogany sm:text-4xl md:text-5xl">
             Your values matter a lot for us
           </h2>
         </div>
 
-        <div className="mt-16 grid items-center gap-12 md:grid-cols-[minmax(0,320px)_1fr] lg:gap-20">
-          <div className="relative mx-auto aspect-square w-full max-w-[320px]" aria-hidden="true">
+        <div className="mt-10 grid items-center gap-8 md:mt-16 md:grid-cols-[minmax(0,320px)_1fr] md:gap-12 lg:gap-20">
+          <div className="relative mx-auto aspect-square w-full max-w-[220px] sm:max-w-[280px] md:max-w-[320px]" aria-hidden="true">
             {SLICES.map((slice) => (
               <div
                 key={slice.clip}
@@ -121,14 +121,14 @@ export function ReviewsSection() {
                   <figure
                     key={review.text}
                     aria-hidden={i !== index}
-                    className="flex w-full shrink-0 flex-col justify-between gap-8 p-8 sm:p-12"
+                    className="flex w-full shrink-0 flex-col justify-between gap-6 p-6 sm:gap-8 sm:p-10 md:p-12"
                   >
                     <div className="flex gap-1" aria-label="5 out of 5 stars">
                       {Array.from({ length: 5 }).map((_, star) => (
                         <Star key={star} className="h-5 w-5 fill-gold text-gold" />
                       ))}
                     </div>
-                    <blockquote className="text-pretty font-serif text-xl leading-relaxed text-mahogany sm:text-2xl">
+                    <blockquote className="text-pretty font-serif text-base leading-relaxed text-mahogany sm:text-lg md:text-2xl">
                       &ldquo;{review.text}&rdquo;
                     </blockquote>
                   </figure>
@@ -136,8 +136,8 @@ export function ReviewsSection() {
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-between gap-4">
-              <div className="flex gap-2" role="tablist" aria-label="Choose review">
+            <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2" role="tablist" aria-label="Choose review">
                 {REVIEWS.map((review, i) => (
                   <button
                     key={review.text}
@@ -157,17 +157,17 @@ export function ReviewsSection() {
                   type="button"
                   onClick={() => goTo(index - 1)}
                   aria-label="Previous review"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold sm:h-11 sm:w-11"
                 >
-                  <ChevronLeft className="h-5 w-5" />
+                  <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
                 <button
                   type="button"
                   onClick={() => goTo(index + 1)}
                   aria-label="Next review"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold sm:h-11 sm:w-11"
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
               </div>
             </div>
