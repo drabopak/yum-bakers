@@ -10,6 +10,7 @@
   --color-cream: var(--cream);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-gold-light: var(--gold-light);
   --color-tangerine: var(--tangerine);
   --color-mahogany: var(--mahogany);
   --color-mahogany-soft: var(--mahogany-soft);
@@ -22,18 +23,19 @@
 
 :root {
   color-scheme: light;
-  --background: #fffdf9;
-  --foreground: #4a2810;
+  --background: #ffffff;
+  --foreground: #1a1a1a;
   --card: #ffffff;
-  --card-foreground: #4a2810;
-  --cream: #fffdf9;
-  --gold: #e09f3e;
-  --gold-soft: #f3d9a8;
-  --tangerine: #e4572e;
-  --mahogany: #4a2810;
-  --mahogany-soft: #7a5230;
-  --border: #f0e4d0;
-  --ring: #e09f3e;
+  --card-foreground: #1a1a1a;
+  --cream: #ffffff;
+  --gold: #c9a227;
+  --gold-soft: #f5e6b8;
+  --gold-light: #fbf6e9;
+  --tangerine: #c9a227;
+  --mahogany: #1a1a1a;
+  --mahogany-soft: #5c5c5c;
+  --border: #e8e8e8;
+  --ring: #c9a227;
 }
 
 @layer base {
@@ -41,7 +43,7 @@
     @apply border-border;
   }
   html {
-    background-color: var(--cream);
+    background-color: #ffffff;
   }
   body {
     @apply bg-background text-foreground font-sans;
@@ -67,10 +69,10 @@
 
 /* Multi-layered soft drop shadow */
 .soft-shadow {
-  box-shadow: 0 20px 40px rgba(74, 40, 16, 0.08), 0 6px 14px rgba(74, 40, 16, 0.06);
+  box-shadow: 0 20px 40px rgba(201, 162, 39, 0.1), 0 6px 14px rgba(201, 162, 39, 0.06);
 }
 .soft-shadow-lg {
-  box-shadow: 0 30px 60px rgba(74, 40, 16, 0.12), 0 10px 22px rgba(74, 40, 16, 0.08);
+  box-shadow: 0 30px 60px rgba(201, 162, 39, 0.14), 0 10px 22px rgba(201, 162, 39, 0.08);
 }
 
 /* Perspective tilt card */
@@ -224,7 +226,7 @@
   }
 }
 .gold-shine {
-  background: linear-gradient(100deg, #b8860b 0%, #f7d774 35%, #fff3c4 50%, #f7d774 65%, #b8860b 100%);
+  background: linear-gradient(100deg, #a67c00 0%, #d4af37 35%, #fff3c4 50%, #d4af37 65%, #a67c00 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -233,8 +235,8 @@
 }
 
 .urban-menu {
-  background: #0b0b0c;
-  color: white;
+  background: #ffffff;
+  color: #1a1a1a;
 }
 .menu-dashboard-card {
   background-size: cover;
@@ -268,11 +270,11 @@
   }
 }
 .menu-item-card {
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 18px 40px rgba(201, 162, 39, 0.12);
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 .menu-item-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(224, 159, 62, 0.5);
-  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.32);
+  border-color: rgba(201, 162, 39, 0.5);
+  box-shadow: 0 22px 45px rgba(201, 162, 39, 0.18);
 }

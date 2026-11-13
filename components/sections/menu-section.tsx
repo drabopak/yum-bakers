@@ -122,12 +122,12 @@ export function MenuSection() {
   return (
     <section id="menu" className="urban-menu scroll-mt-20 px-4 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-6 border-b border-gold/15 pb-8 md:flex-row md:items-end">
           <div>
             <span className="text-[0.65rem] font-bold uppercase tracking-[0.35em] text-gold">Made to order</span>
-            <h2 className="mt-3 font-serif text-4xl font-black text-white sm:text-6xl">The Menu</h2>
+            <h2 className="mt-3 font-serif text-4xl font-black text-mahogany sm:text-6xl">The Menu</h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-white/45 md:text-right">
+          <p className="max-w-xs text-sm leading-relaxed text-mahogany-soft md:text-right">
             Big flavours, made fresh and ready for your table.
           </p>
         </div>
@@ -146,14 +146,14 @@ export function MenuSection() {
                 }}
                 aria-pressed={isActive}
                 className={`menu-dashboard-card group relative min-h-32 overflow-hidden rounded-xl border p-4 text-left transition-all duration-300 sm:min-h-40 ${
-                  isActive ? 'is-active border-gold shadow-[0_16px_36px_rgba(224,159,62,0.18)]' : 'border-white/10 hover:-translate-y-1 hover:border-white/30'
+                  isActive ? 'is-active border-gold shadow-[0_16px_36px_rgba(201,162,39,0.18)]' : 'border-gold/15 hover:-translate-y-1 hover:border-gold/50'
                 }`}
-                style={{ backgroundImage: `linear-gradient(180deg, rgba(9,9,10,0.12), rgba(9,9,10,0.94)), url(${category.image})` }}
+                style={{ backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.95)), url(${category.image})` }}
               >
-                <span className="absolute right-3 top-3 text-[0.6rem] font-semibold text-white/40">0{index + 1}</span>
-                <Icon className={`relative mt-9 h-5 w-5 transition-colors ${isActive ? 'text-gold' : 'text-white/70 group-hover:text-gold'}`} />
-                <span className="relative mt-3 block text-sm font-semibold leading-tight text-white">{category.label}</span>
-                <span className={`absolute bottom-3 right-3 transition-transform ${isActive ? 'translate-x-0 text-gold' : '-translate-x-2 text-white/0 group-hover:translate-x-0 group-hover:text-gold'}`}>
+                <span className="absolute right-3 top-3 text-[0.6rem] font-semibold text-mahogany-soft">0{index + 1}</span>
+                <Icon className={`relative mt-9 h-5 w-5 transition-colors ${isActive ? 'text-gold' : 'text-mahogany-soft group-hover:text-gold'}`} />
+                <span className="relative mt-3 block text-sm font-semibold leading-tight text-mahogany">{category.label}</span>
+                <span className={`absolute bottom-3 right-3 transition-transform ${isActive ? 'translate-x-0 text-gold' : '-translate-x-2 text-transparent group-hover:translate-x-0 group-hover:text-gold'}`}>
                   <ChevronRight className="h-4 w-4" />
                 </span>
               </button>
@@ -163,9 +163,9 @@ export function MenuSection() {
 
         <div key={activeCategory.id} className="menu-dashboard-detail mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
           <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-tangerine">{activeCategory.eyebrow}</span>
-            <h3 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">{activeCategory.label}</h3>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/55">{activeCategory.description}</p>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-gold">{activeCategory.eyebrow}</span>
+            <h3 className="mt-3 font-serif text-3xl font-bold text-mahogany sm:text-4xl">{activeCategory.label}</h3>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-mahogany-soft">{activeCategory.description}</p>
             <div className="mt-6 h-px w-20 bg-gold" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -193,18 +193,18 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   }
 
   return (
-    <article className="menu-item-card fade-up group overflow-hidden rounded-2xl border border-white/10 bg-[#171719]" style={{ animationDelay: `${index * 80}ms` }}>
+    <article className="menu-item-card fade-up group overflow-hidden rounded-2xl border border-gold/15 bg-white" style={{ animationDelay: `${index * 80}ms` }}>
       <div className="relative h-44 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image} alt={item.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="absolute left-3 top-3 rounded bg-[#0b0b0c]/80 px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-gold">Urban favourite</span>
+        <span className="absolute left-3 top-3 rounded bg-white/90 px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-gold backdrop-blur-sm">Urban favourite</span>
       </div>
       <div className="p-4">
-        <h4 className="font-serif text-lg font-bold text-white">{item.name}</h4>
-        <p className="mt-2 min-h-10 text-xs leading-relaxed text-white/50">{item.description}</p>
+        <h4 className="font-serif text-lg font-bold text-mahogany">{item.name}</h4>
+        <p className="mt-2 min-h-10 text-xs leading-relaxed text-mahogany-soft">{item.description}</p>
         <div className="mt-5 flex items-center justify-between gap-3">
           <span className="text-sm font-bold text-gold">{formatRs(item.price)}</span>
-          <button ref={buttonRef} type="button" onClick={handleAdd} className={`rounded-full px-4 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 ${added ? 'bg-emerald-500 text-white' : 'bg-tangerine text-white hover:bg-gold hover:text-[#0b0b0c]'}`}>
+          <button ref={buttonRef} type="button" onClick={handleAdd} className={`rounded-full px-4 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 ${added ? 'bg-emerald-500 text-white' : 'bg-gold text-white hover:bg-gold/85'}`}>
             {added ? <Check className="mx-auto h-4 w-4" /> : 'Order'}
           </button>
         </div>

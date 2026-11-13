@@ -41,14 +41,14 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0b0b0c] text-white"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-white text-mahogany"
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(55% 60% at 75% 45%, rgba(224,159,62,0.22), transparent 65%), radial-gradient(40% 40% at 10% 100%, rgba(228,87,46,0.14), transparent 60%)',
+            'radial-gradient(55% 60% at 75% 45%, rgba(201,162,39,0.15), transparent 65%), radial-gradient(40% 40% at 10% 100%, rgba(201,162,39,0.08), transparent 60%)',
         }}
       />
 
@@ -63,7 +63,7 @@ export function Hero() {
             <img
               src={BURGER_IMAGE}
               alt="Signature gourmet burger"
-              className="aspect-square w-full rounded-full object-cover shadow-[0_40px_80px_rgba(0,0,0,0.6)] ring-1 ring-gold/30"
+              className="aspect-square w-full rounded-full object-cover shadow-[0_40px_80px_rgba(201,162,39,0.18)] ring-2 ring-gold/30"
             />
           </div>
         </div>
@@ -77,7 +77,7 @@ export function Hero() {
             Urban Bites
           </p>
           <h1 className="mt-5 font-serif text-[2.6rem] font-black uppercase leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            <span className={`block text-white ${ready ? 'tagline-snap' : 'opacity-0'}`}>
+            <span className={`block text-mahogany ${ready ? 'tagline-snap' : 'opacity-0'}`}>
               Where Street Hustle
             </span>
             <span
@@ -88,7 +88,7 @@ export function Hero() {
             </span>
           </h1>
           <p
-            className={`mx-auto mt-6 max-w-md text-pretty text-base leading-relaxed text-white/70 md:mx-0 sm:text-lg ${
+            className={`mx-auto mt-6 max-w-md text-pretty text-base leading-relaxed text-mahogany-soft md:mx-0 sm:text-lg ${
               ready ? 'tagline-snap' : 'opacity-0'
             }`}
             style={{ animationDelay: '0.45s' }}
@@ -98,7 +98,7 @@ export function Hero() {
           </p>
           <a
             href="#menu"
-            className={`mt-10 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-semibold text-[#0b0b0c] shadow-[0_14px_30px_rgba(224,159,62,0.35)] transition-transform hover:-translate-y-0.5 hover:scale-[1.03] ${
+            className={`mt-10 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(201,162,39,0.35)] transition-transform hover:-translate-y-0.5 hover:scale-[1.03] ${
               ready ? 'tagline-snap' : 'opacity-0'
             }`}
             style={{ animationDelay: '0.6s' }}

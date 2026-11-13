@@ -39,7 +39,7 @@ export function BranchesSection() {
                 <a
                   key={phone}
                   href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
-                  className="inline-flex items-center gap-2 rounded-full bg-mahogany px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-tangerine"
+                  className="inline-flex items-center gap-2 rounded-full bg-mahogany px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gold"
                 >
                   <Phone className="h-4 w-4" />
                   {phone}

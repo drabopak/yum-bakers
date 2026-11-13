@@ -32,12 +32,12 @@ const STAFF_ROUTES: Record<StaffRoleId, string> = {
 }
 
 const inputClass =
-  'w-full rounded-xl border border-stone-700 bg-stone-900 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 outline-none transition-colors focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30'
+  'w-full rounded-xl border border-gold/20 bg-gold-light/30 px-4 py-3 text-sm text-mahogany placeholder:text-mahogany-soft/50 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/20'
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-sm font-semibold text-stone-300">{label}</span>
+      <span className="text-sm font-semibold text-mahogany-soft">{label}</span>
       {children}
     </label>
   )
@@ -69,17 +69,17 @@ export default function StaffLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-stone-950 via-stone-900 to-stone-950 px-4 py-12">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-stone-800 bg-stone-950 shadow-2xl">
-        <div className="border-b border-stone-800 bg-gradient-to-r from-amber-600 to-red-600 px-6 py-6 text-center text-white">
-          <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/15">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white via-gold-light to-white px-4 py-12">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-gold/20 bg-white shadow-2xl shadow-gold/10">
+        <div className="border-b border-gold/15 bg-gold px-6 py-6 text-center text-white">
+          <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
             <Lock className="h-5 w-5" />
           </div>
           <h1 className="font-serif text-xl font-bold">Staff Access Portal</h1>
-          <p className="mt-1 text-xs text-amber-50/90">Authorized personnel only</p>
+          <p className="mt-1 text-xs text-white/80">Authorized personnel only</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-1 border-b border-stone-800 bg-stone-900/60 p-2">
+        <div className="grid grid-cols-3 gap-1 border-b border-gold/15 bg-gold-light/30 p-2">
           {ROLE_TABS.map(({ id, label, icon: Icon }) => {
             const isActive = activeRole === id
             return (
@@ -89,7 +89,7 @@ export default function StaffLoginPage() {
                 onClick={() => switchRole(id)}
                 aria-pressed={isActive}
                 className={`flex flex-col items-center gap-1 rounded-xl px-2 py-2.5 text-xs font-semibold transition-colors ${
-                  isActive ? 'bg-red-600 text-white shadow-sm' : 'text-stone-400 hover:bg-stone-800'
+                  isActive ? 'bg-gold text-white shadow-sm' : 'text-mahogany-soft hover:bg-gold/10'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -101,7 +101,7 @@ export default function StaffLoginPage() {
 
         <div className="p-6 sm:p-8">
           {error && (
-            <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-800 bg-red-950/50 px-4 py-3 text-sm font-medium text-red-400">
+            <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
               <AlertCircle className="h-4 w-4 shrink-0" />
               {error}
             </div>
@@ -130,7 +130,7 @@ export default function StaffLoginPage() {
             </Field>
             <button
               type="submit"
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-red-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/30 transition-transform hover:-translate-y-0.5"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-gold/20 transition-transform hover:-translate-y-0.5 hover:bg-gold/85"
             >
               Enter {activeRole.charAt(0).toUpperCase() + activeRole.slice(1)} Dashboard
               <ArrowRight className="h-4 w-4" />

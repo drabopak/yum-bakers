@@ -64,7 +64,7 @@ export function CartDrawer() {
       <div
         onClick={closeCart}
         aria-hidden="true"
-        className={`fixed inset-0 z-50 bg-mahogany/40 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-mahogany/30 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       />
@@ -74,7 +74,7 @@ export function CartDrawer() {
         role="dialog"
         aria-label="Shopping cart"
         aria-modal="true"
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-cream shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -125,12 +125,12 @@ export function CartDrawer() {
                           playRemove()
                         }}
                         aria-label={`Remove ${line.name}`}
-                        className="text-mahogany-soft transition-colors hover:text-tangerine"
+                        className="text-mahogany-soft transition-colors hover:text-gold"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
-                    <span className="text-sm font-bold text-tangerine">
+                    <span className="text-sm font-bold text-gold">
                       {formatRs(line.price)}
                     </span>
                     <div className="mt-2 flex items-center gap-3">
@@ -174,7 +174,7 @@ export function CartDrawer() {
           </div>
 
           {!isAuthenticated && lines.length > 0 && (
-            <p className="mb-3 flex items-center gap-2 rounded-xl border border-gold/40 bg-gold-soft/30 px-3 py-2 text-xs font-medium text-mahogany-soft">
+            <p className="mb-3 flex items-center gap-2 rounded-xl border border-gold/30 bg-gold-soft/20 px-3 py-2 text-xs font-medium text-mahogany-soft">
               <Lock className="h-3.5 w-3.5 shrink-0" />
               You&apos;ll be asked to log in to confirm this order.
             </p>
@@ -184,7 +184,7 @@ export function CartDrawer() {
             type="button"
             onClick={handleOrder}
             disabled={lines.length === 0}
-            className="w-full rounded-full bg-tangerine px-6 py-3.5 text-sm font-semibold text-cream transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-white transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isAuthenticated ? 'Proceed to Order' : 'Login to Place Order'}
           </button>

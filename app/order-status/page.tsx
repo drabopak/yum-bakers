@@ -95,17 +95,17 @@ function OrderStatusContent() {
 
   if (!order) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0b0b0c] px-4 text-center text-white">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-white px-4 text-center text-mahogany">
+        <div className="rounded-3xl border border-gold/20 bg-gold-light/50 p-8 backdrop-blur">
           <PackageCheck className="mx-auto h-12 w-12 text-gold" />
           <h1 className="mt-4 font-serif text-xl font-bold">No active order</h1>
-          <p className="mt-2 max-w-sm text-sm text-white/70">
+          <p className="mt-2 max-w-sm text-sm text-mahogany-soft">
             We couldn&apos;t find an order to track. Place an order from the menu to see its live
             status here.
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-[#0b0b0c] transition-transform hover:-translate-y-0.5"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
           >
             <Home className="h-4 w-4" />
             Back to Menu
@@ -119,14 +119,14 @@ function OrderStatusContent() {
   const currentStep = STEPS[currentIndex]
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black px-4 py-8 text-white sm:px-8">
+    <main className="relative min-h-screen overflow-hidden bg-white px-4 py-8 text-mahogany sm:px-8">
       <OrderBackgroundVideo video={currentStep.video} />
 
       <div className="relative z-10 mx-auto max-w-2xl">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 transition-colors hover:text-gold"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-mahogany-soft transition-colors hover:text-gold"
           >
             <Home className="h-4 w-4" />
             Back to Home
@@ -134,18 +134,18 @@ function OrderStatusContent() {
           <ConnectionBadge status={connectionStatus} />
         </div>
 
-        <div className="mt-6 rounded-3xl border border-white/10 bg-black/55 p-6 shadow-2xl backdrop-blur-md sm:p-10">
+        <div className="mt-6 rounded-3xl border border-gold/20 bg-white/90 p-6 shadow-2xl shadow-gold/10 backdrop-blur-md sm:p-10">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-gold">
               Order {order.id}
             </span>
-            <h1 className="mt-4 font-serif text-2xl font-black uppercase sm:text-3xl">
+            <h1 className="mt-4 font-serif text-2xl font-black uppercase text-mahogany sm:text-3xl">
               {order.status === 'Delivered' ? 'Order Delivered!' : 'Tracking Your Order'}
             </h1>
             <div className="mt-3 min-h-[1.75rem]">
               <CyclingPhrase key={order.status} phrases={currentStep.phrases} />
             </div>
-            <p className="mt-2 text-sm text-white/60">
+            <p className="mt-2 text-sm text-mahogany-soft">
               Placed at{' '}
               {new Date(order.createdAt).toLocaleTimeString('en-US', {
                 hour: '2-digit',
@@ -172,15 +172,15 @@ function OrderStatusContent() {
                         isComplete
                           ? 'border-emerald-400 bg-emerald-500 text-white'
                           : isActive
-                            ? 'animate-pulse border-gold bg-gold text-[#0b0b0c]'
-                            : 'border-white/20 bg-white/5 text-white/40'
+                            ? 'animate-pulse border-gold bg-gold text-white'
+                            : 'border-gold/20 bg-gold/5 text-mahogany-soft'
                       }`}
                     >
                       {isComplete ? <CheckCircle2 className="h-6 w-6" /> : <Icon className="h-5 w-5" />}
                     </span>
                     {!isLast && (
                       <span
-                        className={`w-0.5 flex-1 ${isComplete ? 'bg-emerald-400' : 'bg-white/15'}`}
+                        className={`w-0.5 flex-1 ${isComplete ? 'bg-emerald-400' : 'bg-gold/15'}`}
                         style={{ minHeight: '2.5rem' }}
                       />
                     )}
@@ -188,12 +188,12 @@ function OrderStatusContent() {
                   <div className={isLast ? 'pb-0' : 'pb-10'}>
                     <h3
                       className={`font-serif text-lg font-bold ${
-                        isActive ? 'text-gold' : isComplete ? 'text-emerald-300' : 'text-white/50'
+                        isActive ? 'text-gold' : isComplete ? 'text-emerald-600' : 'text-mahogany-soft'
                       }`}
                     >
                       {step.title}
                     </h3>
-                    <p className={`mt-1 text-sm ${isUpcoming ? 'text-white/45' : 'text-white/80'}`}>
+                    <p className={`mt-1 text-sm ${isUpcoming ? 'text-mahogany-soft/60' : 'text-mahogany'}`}>
                       {step.description}
                     </p>
                   </div>
@@ -202,16 +202,16 @@ function OrderStatusContent() {
             })}
           </div>
 
-          <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div className="mt-4 rounded-2xl border border-gold/20 bg-gold-light/30 p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-gold">Delivery Address</p>
-            <p className="mt-1 text-sm text-white/85">{order.address}</p>
+            <p className="mt-1 text-sm text-mahogany">{order.address}</p>
           </div>
 
-          <div className="mt-4 rounded-2xl border border-white/10 p-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-white/60">Order Items</p>
+          <div className="mt-4 rounded-2xl border border-gold/20 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-mahogany-soft">Order Items</p>
             <ul className="mt-2 flex flex-col gap-1">
               {order.items.map((item) => (
-                <li key={item.id} className="flex justify-between text-sm text-white/85">
+                <li key={item.id} className="flex justify-between text-sm text-mahogany">
                   <span>
                     <span className="font-semibold">{item.quantity}×</span> {item.name}
                   </span>

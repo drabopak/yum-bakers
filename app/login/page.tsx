@@ -6,7 +6,7 @@ import { AlertCircle, ArrowRight, Lock, Phone, User } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
 
 const inputClass =
-  'w-full rounded-xl border border-amber-200 bg-amber-50/40 py-3 pl-10 pr-4 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-colors focus:border-red-400 focus:ring-2 focus:ring-red-200'
+  'w-full rounded-xl border border-gold/20 bg-gold-light/40 py-3 pl-10 pr-4 text-sm text-mahogany placeholder:text-mahogany-soft/60 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/20'
 
 function LoginForm() {
   const router = useRouter()
@@ -35,16 +35,16 @@ function LoginForm() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 px-4 py-12">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-xl shadow-amber-900/5">
-        <div className="border-b border-amber-100 bg-gradient-to-r from-amber-500 to-red-500 px-6 py-8 text-center text-white">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white via-gold-light to-white px-4 py-12">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-gold/20 bg-white shadow-xl shadow-gold/10">
+        <div className="border-b border-gold/15 bg-gold px-6 py-8 text-center text-white">
           <h1 className="font-serif text-2xl font-bold">Urban Bites</h1>
-          <p className="mt-1 text-sm text-amber-50">Sign in to your account</p>
+          <p className="mt-1 text-sm text-white/80">Sign in to your account</p>
         </div>
 
         <div className="p-6 sm:p-8">
           {cameFromCheckout && (
-            <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <div className="mb-5 rounded-xl border border-gold/20 bg-gold-light px-4 py-3 text-sm text-mahogany">
               Log in to finish placing your order.
             </div>
           )}
@@ -58,9 +58,9 @@ function LoginForm() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-semibold text-stone-700">Full Name</span>
+              <span className="text-sm font-semibold text-mahogany">Full Name</span>
               <div className="relative">
-                <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+                <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mahogany-soft/60" />
                 <input
                   type="text"
                   value={name}
@@ -72,9 +72,9 @@ function LoginForm() {
             </label>
 
             <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-semibold text-stone-700">Phone Number</span>
+              <span className="text-sm font-semibold text-mahogany">Phone Number</span>
               <div className="relative">
-                <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+                <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mahogany-soft/60" />
                 <input
                   type="tel"
                   required
@@ -87,9 +87,9 @@ function LoginForm() {
             </label>
 
             <label className="flex flex-col gap-1.5">
-              <span className="text-sm font-semibold text-stone-700">Password</span>
+              <span className="text-sm font-semibold text-mahogany">Password</span>
               <div className="relative">
-                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mahogany-soft/60" />
                 <input
                   type="password"
                   required
@@ -103,13 +103,13 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-red-600/20 transition-transform hover:-translate-y-0.5 hover:bg-red-700"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-gold/20 transition-transform hover:-translate-y-0.5 hover:bg-gold/85"
             >
               Login / Register
               <ArrowRight className="h-4 w-4" />
             </button>
 
-            <p className="text-center text-xs text-stone-500">
+            <p className="text-center text-xs text-mahogany-soft">
               New here? Signing in creates your account automatically.
             </p>
           </form>

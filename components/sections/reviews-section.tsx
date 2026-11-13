@@ -67,14 +67,14 @@ export function ReviewsSection() {
     <section
       ref={sectionRef}
       id="reviews"
-      className="relative overflow-hidden bg-[#0b0b0c] px-6 py-24 text-white md:py-32"
+      className="relative overflow-hidden bg-white px-6 py-24 text-mahogany md:py-32"
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%]"
         style={{
           background:
-            'radial-gradient(60% 70% at 50% 110%, rgba(124,58,237,0.28), rgba(76,29,149,0.12) 45%, transparent 75%)',
+            'radial-gradient(60% 70% at 50% 110%, rgba(201,162,39,0.12), rgba(201,162,39,0.05) 45%, transparent 75%)',
         }}
       />
 
@@ -83,7 +83,7 @@ export function ReviewsSection() {
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-gold">
             Customer Reviews
           </span>
-          <h2 className="mx-auto mt-4 max-w-3xl text-balance font-serif text-4xl font-black uppercase leading-[1.05] sm:text-5xl">
+          <h2 className="mx-auto mt-4 max-w-3xl text-balance font-serif text-4xl font-black uppercase leading-[1.05] text-mahogany sm:text-5xl">
             Your values matter a lot for us
           </h2>
         </div>
@@ -112,7 +112,7 @@ export function ReviewsSection() {
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur">
+            <div className="overflow-hidden rounded-[2rem] border border-gold/15 bg-gold-light/50 backdrop-blur">
               <div
                 className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 style={{ transform: `translateX(-${index * 100}%)` }}
@@ -128,7 +128,7 @@ export function ReviewsSection() {
                         <Star key={star} className="h-5 w-5 fill-gold text-gold" />
                       ))}
                     </div>
-                    <blockquote className="text-pretty font-serif text-xl leading-relaxed text-white/90 sm:text-2xl">
+                    <blockquote className="text-pretty font-serif text-xl leading-relaxed text-mahogany sm:text-2xl">
                       &ldquo;{review.text}&rdquo;
                     </blockquote>
                   </figure>
@@ -147,7 +147,7 @@ export function ReviewsSection() {
                     aria-label={`Review ${i + 1}`}
                     onClick={() => goTo(i)}
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      i === index ? 'w-8 bg-gold' : 'w-2 bg-white/30 hover:bg-white/60'
+                      i === index ? 'w-8 bg-gold' : 'w-2 bg-mahogany/20 hover:bg-mahogany/40'
                     }`}
                   />
                 ))}
@@ -157,7 +157,7 @@ export function ReviewsSection() {
                   type="button"
                   onClick={() => goTo(index - 1)}
                   aria-label="Previous review"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 transition-colors hover:border-gold hover:text-gold"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -165,7 +165,7 @@ export function ReviewsSection() {
                   type="button"
                   onClick={() => goTo(index + 1)}
                   aria-label="Next review"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 transition-colors hover:border-gold hover:text-gold"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/20 transition-colors hover:border-gold hover:text-gold"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>

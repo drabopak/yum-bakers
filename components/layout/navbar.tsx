@@ -17,10 +17,10 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-cream/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-gold/15 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:px-6">
         <a href="#top" className="flex shrink-0 items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold text-lg font-bold text-mahogany shadow-[0_6px_16px_rgba(224,159,62,0.4)] font-serif">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold text-lg font-bold text-white shadow-[0_6px_16px_rgba(201,162,39,0.4)] font-serif">
             U
           </span>
           <span className="hidden leading-tight sm:block">
@@ -35,7 +35,7 @@ export function Navbar() {
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-mahogany md:flex">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors hover:text-tangerine">
+            <a key={link.href} href={link.href} className="transition-colors hover:text-gold">
               {link.label}
             </a>
           ))}
@@ -49,7 +49,7 @@ export function Navbar() {
             <div className="flex items-center gap-1.5">
               <span
                 title={user?.phone}
-                className="flex items-center gap-1.5 rounded-full bg-gold-soft/50 px-3 py-2 text-xs font-semibold text-mahogany"
+                className="flex items-center gap-1.5 rounded-full bg-gold-soft/40 px-3 py-2 text-xs font-semibold text-mahogany"
               >
                 <UserIcon className="h-4 w-4" />
                 <span className="hidden sm:inline">{user?.name || user?.phone}</span>
@@ -59,7 +59,7 @@ export function Navbar() {
                 onClick={logout}
                 aria-label="Logout"
                 title="Logout"
-                className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-semibold text-mahogany-soft transition-colors hover:border-tangerine hover:text-tangerine"
+                className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-semibold text-mahogany-soft transition-colors hover:border-gold hover:text-gold"
               >
                 <LogOut className="h-4 w-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -69,7 +69,7 @@ export function Navbar() {
             <Link
               href="/login"
               aria-label="Login or Register"
-              className="flex items-center gap-2 rounded-full bg-tangerine px-3.5 py-2.5 text-sm font-semibold text-cream shadow-[0_10px_20px_rgba(228,87,46,0.3)] transition-transform hover:-translate-y-0.5 sm:px-4"
+              className="flex items-center gap-2 rounded-full bg-gold px-3.5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_20px_rgba(201,162,39,0.3)] transition-transform hover:-translate-y-0.5 sm:px-4"
             >
               <LogIn className="h-4 w-4" />
               <span className="hidden sm:inline">Login / Register</span>
@@ -81,14 +81,14 @@ export function Navbar() {
             data-cart-target
             onClick={openCart}
             aria-label={`Open cart, ${count} items`}
-            className="relative flex items-center gap-2 rounded-full bg-mahogany px-3.5 py-2.5 text-sm font-semibold text-cream transition-transform hover:scale-105 sm:px-4"
+            className="relative flex items-center gap-2 rounded-full bg-mahogany px-3.5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105 sm:px-4"
           >
             <ShoppingBag className="h-5 w-5" strokeWidth={2} />
             <span className="hidden sm:inline">Cart</span>
             {count > 0 && (
               <span
                 key={bump}
-                className="cart-bump absolute -right-1.5 -top-1.5 flex h-6 min-w-6 items-center justify-center rounded-full bg-tangerine px-1.5 text-xs font-bold text-cream ring-2 ring-cream"
+                className="cart-bump absolute -right-1.5 -top-1.5 flex h-6 min-w-6 items-center justify-center rounded-full bg-gold px-1.5 text-xs font-bold text-white ring-2 ring-white"
               >
                 {count}
               </span>
@@ -108,7 +108,7 @@ export function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-border/70 bg-cream px-4 py-3 md:hidden">
+        <div className="border-t border-gold/15 bg-white px-4 py-3 md:hidden">
           <nav className="flex flex-col gap-1 text-sm font-medium text-mahogany">
             {NAV_LINKS.map((link) => (
               <a
