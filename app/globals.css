@@ -18,23 +18,23 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
-  --radius: 1rem;
+  --radius: 1.25rem;
 }
 
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #1a1a1a;
+  --background: #fbfbfd;
+  --foreground: #1c1c1e;
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
-  --cream: #ffffff;
+  --card-foreground: #1c1c1e;
+  --cream: #fbfbfd;
   --gold: #c9a227;
   --gold-soft: #f5e6b8;
   --gold-light: #fbf6e9;
   --tangerine: #c9a227;
-  --mahogany: #1a1a1a;
-  --mahogany-soft: #5c5c5c;
-  --border: #e8e8e8;
+  --mahogany: #1c1c1e;
+  --mahogany-soft: #6e6e73;
+  --border: #f0f0f2;
   --ring: #c9a227;
 }
 
@@ -43,187 +43,68 @@
     @apply border-border;
   }
   html {
-    background-color: #ffffff;
+    background-color: #fbfbfd;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
   }
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     @apply font-serif;
   }
 }
 
-/* Organic blob border radii for food imagery */
-.blob-1 {
-  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+/* iOS deep layered shadow system */
+.ios-shadow {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.04);
 }
-.blob-2 {
-  border-radius: 41% 59% 43% 57% / 58% 42% 58% 42%;
+.ios-shadow-lg {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05), 0 12px 32px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.06);
 }
-.blob-3 {
-  border-radius: 50% 50% 33% 67% / 55% 44% 56% 45%;
-}
-
-/* Multi-layered soft drop shadow */
-.soft-shadow {
-  box-shadow: 0 20px 40px rgba(201, 162, 39, 0.1), 0 6px 14px rgba(201, 162, 39, 0.06);
-}
-.soft-shadow-lg {
-  box-shadow: 0 30px 60px rgba(201, 162, 39, 0.14), 0 10px 22px rgba(201, 162, 39, 0.08);
+.ios-shadow-gold {
+  box-shadow: 0 4px 12px rgba(201,162,39,0.15), 0 12px 36px rgba(201,162,39,0.12), 0 24px 60px rgba(201,162,39,0.08);
 }
 
-/* Perspective tilt card */
-.tilt-card {
-  perspective: 1000px;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
-  transform-style: preserve-3d;
+/* Ambient golden bottom glow */
+.ambient-glow {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(60% 100% at 50% 100%, rgba(201,162,39,0.08), transparent 70%);
+  animation: glow-breath 4s ease-in-out infinite;
 }
-.tilt-card:hover {
-  transform: translateY(-10px) rotateX(6deg) rotateY(-6deg) scale(1.02);
-}
-
-/* Dual-layer gentle float */
-@keyframes float-a {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1deg);
-  }
-  50% {
-    transform: translateY(-16px) rotate(1deg);
-  }
-}
-@keyframes float-b {
-  0%,
-  100% {
-    transform: translateY(0) rotate(1deg);
-  }
-  50% {
-    transform: translateY(-24px) rotate(-1.5deg);
-  }
-}
-.float-a {
-  animation: float-a 6s ease-in-out infinite;
-}
-.float-b {
-  animation: float-b 8s ease-in-out infinite;
+@keyframes glow-breath {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* iOS spring animation */
+@keyframes ios-fade-up {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.fade-up {
-  animation: fade-up 0.5s ease-out both;
+.ios-fade-up {
+  animation: ios-fade-up 0.5s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 24px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+@keyframes ios-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
 }
-.toast-in {
-  animation: toast-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+.ios-scale-in {
+  animation: ios-scale-in 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-@keyframes cart-bump {
-  0% {
-    transform: scale(1);
-  }
-  35% {
-    transform: scale(1.35) rotate(-8deg);
-  }
-  70% {
-    transform: scale(0.92) rotate(4deg);
-  }
-  100% {
-    transform: scale(1) rotate(0);
-  }
-}
-.cart-bump {
-  animation: cart-bump 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes burger-roll {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -45vh, 0) rotateY(720deg) scale(0.6);
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotateY(0) scale(1);
-  }
-}
-.burger-roll {
-  animation: burger-roll 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
-}
-
-@keyframes tagline-snap {
-  0% {
-    opacity: 0;
-    transform: scale(1.25) translateY(-12px);
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-.tagline-snap {
-  animation: tagline-snap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes phrase-fade {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.phrase-fade {
-  animation: phrase-fade 0.6s ease-out both;
-}
-
-@keyframes ninja-bob {
-  from {
-    transform: translateY(0) rotate(-3deg);
-  }
-  to {
-    transform: translateY(-5px) rotate(3deg);
-  }
-}
-.ninja-body {
-  animation: ninja-bob 0.35s ease-in-out infinite alternate;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
+/* Gold shine text */
 @keyframes gold-shine {
-  to {
-    background-position: 200% center;
-  }
+  to { background-position: 200% center; }
 }
 .gold-shine {
   background: linear-gradient(100deg, #a67c00 0%, #d4af37 35%, #fff3c4 50%, #d4af37 65%, #a67c00 100%);
@@ -231,50 +112,68 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: tagline-snap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both, gold-shine 3.5s linear 0.5s infinite;
+  animation: gold-shine 3.5s linear infinite;
 }
 
-.urban-menu {
-  background: #ffffff;
-  color: #1a1a1a;
+/* Cart bump */
+@keyframes cart-bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.4) rotate(-8deg); }
+  70% { transform: scale(0.9) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
 }
-.menu-dashboard-card {
-  background-size: cover;
-  background-position: center;
-  isolation: isolate;
+.cart-bump { animation: cart-bump 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+
+/* Phrase fade */
+@keyframes phrase-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.menu-dashboard-card::after {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  content: '';
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent 45%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.menu-dashboard-card:hover::after,
-.menu-dashboard-card.is-active::after {
-  opacity: 1;
-}
-.menu-dashboard-detail {
-  animation: menu-detail-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.phrase-fade { animation: phrase-fade 0.5s ease-out both; }
+
+/* Menu detail slide in */
 @keyframes menu-detail-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+.menu-dashboard-detail { animation: menu-detail-in 0.4s cubic-bezier(0.32, 0.72, 0, 1) both; }
+
+/* Toast */
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 24px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.toast-in { animation: toast-in 0.4s cubic-bezier(0.32, 0.72, 0, 1) both; }
+
+/* iOS active press scale */
+.ios-press { transition: transform 0.15s cubic-bezier(0.32, 0.72, 0, 1); }
+.ios-press:active { transform: scale(0.95); }
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+.glass-dark {
+  background: rgba(28, 28, 30, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Menu item card */
 .menu-item-card {
-  box-shadow: 0 18px 40px rgba(201, 162, 39, 0.12);
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 32px rgba(201,162,39,0.08);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.3s ease;
 }
 .menu-item-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(201, 162, 39, 0.5);
-  box-shadow: 0 22px 45px rgba(201, 162, 39, 0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 20px 48px rgba(201,162,39,0.12);
+}
+
+/* Sparkle particle for fly-to-cart */
+@keyframes sparkle-fly {
+  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  20% { opacity: 1; transform: scale(1.2) rotate(72deg); }
+  100% { opacity: 0; transform: scale(0.4) rotate(360deg); }
 }

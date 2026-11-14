@@ -1,17 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import {
-  Check,
-  ChevronRight,
-  Flame,
-  Gift,
-  Hamburger,
-  Pizza,
-  Sandwich,
-  Soup,
-  Utensils,
-} from 'lucide-react'
+import { Check, ChevronRight, Flame, Gift, Hamburger, Pizza, Sandwich, Soup, Utensils } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { MenuItem } from '@/data/yum-data'
 import { useCart, formatRs } from '@/components/cart/cart-context'
@@ -120,20 +110,16 @@ export function MenuSection() {
   const activeCategory = dashboardCategories.find((category) => category.id === activeId) ?? dashboardCategories[0]
 
   return (
-    <section id="menu" className="urban-menu scroll-mt-20 px-4 py-20 sm:px-6 md:py-28">
+    <section id="menu" className="scroll-mt-20 px-4 py-8">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col justify-between gap-6 border-b border-gold/15 pb-8 md:flex-row md:items-end">
-          <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.35em] text-gold">Made to order</span>
-            <h2 className="mt-3 font-serif text-4xl font-black text-mahogany sm:text-6xl">The Menu</h2>
-          </div>
-          <p className="max-w-xs text-sm leading-relaxed text-mahogany-soft md:text-right">
-            Big flavours, made fresh and ready for your table.
-          </p>
+        <div className="mb-6">
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-gold">Made to order</span>
+          <h2 className="mt-2 font-serif text-3xl font-black text-mahogany sm:text-4xl">The Menu</h2>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
-          {dashboardCategories.map((category, index) => {
+        {/* Category pills - horizontal scroll on mobile */}
+        <div className="-mx-4 flex gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {dashboardCategories.map((category) => {
             const Icon = category.icon
             const isActive = category.id === activeId
             return (
@@ -145,30 +131,28 @@ export function MenuSection() {
                   playTick()
                 }}
                 aria-pressed={isActive}
-                className={`menu-dashboard-card group relative min-h-32 overflow-hidden rounded-xl border p-4 text-left transition-all duration-300 sm:min-h-40 ${
-                  isActive ? 'is-active border-gold shadow-[0_16px_36px_rgba(201,162,39,0.18)]' : 'border-gold/15 hover:-translate-y-1 hover:border-gold/50'
+                className={`ios-press flex shrink-0 items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                  isActive
+                    ? 'border-gold bg-gold text-white ios-shadow-gold'
+                    : 'border-border bg-white text-mahogany-soft'
                 }`}
-                style={{ backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.95)), url(${category.image})` }}
               >
-                <span className="absolute right-3 top-3 text-[0.6rem] font-semibold text-mahogany-soft">0{index + 1}</span>
-                <Icon className={`relative mt-9 h-5 w-5 transition-colors ${isActive ? 'text-gold' : 'text-mahogany-soft group-hover:text-gold'}`} />
-                <span className="relative mt-3 block text-sm font-semibold leading-tight text-mahogany">{category.label}</span>
-                <span className={`absolute bottom-3 right-3 transition-transform ${isActive ? 'translate-x-0 text-gold' : '-translate-x-2 text-transparent group-hover:translate-x-0 group-hover:text-gold'}`}>
-                  <ChevronRight className="h-4 w-4" />
-                </span>
+                <Icon className="h-4 w-4" />
+                {category.label}
               </button>
             )
           })}
         </div>
 
-        <div key={activeCategory.id} className="menu-dashboard-detail mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-          <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-gold">{activeCategory.eyebrow}</span>
-            <h3 className="mt-3 font-serif text-3xl font-bold text-mahogany sm:text-4xl">{activeCategory.label}</h3>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-mahogany-soft">{activeCategory.description}</p>
-            <div className="mt-6 h-px w-20 bg-gold" />
+        {/* Active category items */}
+        <div key={activeCategory.id} className="menu-dashboard-detail mt-6">
+          <div className="mb-5">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-gold">{activeCategory.eyebrow}</span>
+            <h3 className="mt-1.5 font-serif text-2xl font-bold text-mahogany sm:text-3xl">{activeCategory.label}</h3>
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-mahogany-soft">{activeCategory.description}</p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {activeCategory.items.map((item, index) => (
               <MenuCard key={item.id} item={item} index={index} />
             ))}
@@ -193,18 +177,30 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   }
 
   return (
-    <article className="menu-item-card fade-up group overflow-hidden rounded-2xl border border-gold/15 bg-white" style={{ animationDelay: `${index * 80}ms` }}>
-      <div className="relative h-44 overflow-hidden">
+    <article
+      className="menu-item-card ios-fade-up group overflow-hidden rounded-3xl border border-border bg-white"
+      style={{ animationDelay: `${index * 80}ms` }}
+    >
+      <div className="relative h-40 overflow-hidden sm:h-44">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image} alt={item.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="absolute left-3 top-3 rounded bg-white/90 px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-gold backdrop-blur-sm">Urban favourite</span>
+        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-gold backdrop-blur-sm">
+          Urban favourite
+        </span>
       </div>
       <div className="p-4">
         <h4 className="font-serif text-lg font-bold text-mahogany">{item.name}</h4>
-        <p className="mt-2 min-h-10 text-xs leading-relaxed text-mahogany-soft">{item.description}</p>
-        <div className="mt-5 flex items-center justify-between gap-3">
-          <span className="text-sm font-bold text-gold">{formatRs(item.price)}</span>
-          <button ref={buttonRef} type="button" onClick={handleAdd} className={`rounded-full px-4 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 ${added ? 'bg-emerald-500 text-white' : 'bg-gold text-white hover:bg-gold/85'}`}>
+        <p className="mt-1.5 min-h-10 text-xs leading-relaxed text-mahogany-soft">{item.description}</p>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <span className="text-base font-bold text-gold">{formatRs(item.price)}</span>
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={handleAdd}
+            className={`ios-press rounded-full px-5 py-2.5 text-xs font-bold transition-all ${
+              added ? 'bg-emerald-500 text-white' : 'bg-gold text-white ios-shadow-gold'
+            }`}
+          >
             {added ? <Check className="mx-auto h-4 w-4" /> : 'Order'}
           </button>
         </div>
