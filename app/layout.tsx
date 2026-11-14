@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/auth-context'
 import { OrderStoreProvider } from '@/data/order-store'
 import { CartProvider } from '@/components/cart/cart-context'
 import { CartDrawer } from '@/components/cart/cart-drawer'
+import { BottomNav } from '@/components/layout/bottom-nav'
 import './globals.css'
 
 // Force every route to render dynamically on each request instead of being
@@ -57,6 +58,7 @@ export default function RootLayout({
             <CartProvider>
               {children}
               <CartDrawer />
+              <BottomNav />
             </CartProvider>
           </OrderStoreProvider>
         </AuthProvider>

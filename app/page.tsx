@@ -3,15 +3,14 @@ import { Hero } from '@/components/sections/hero'
 import { MenuSection } from '@/components/sections/menu-section'
 import { BranchesSection } from '@/components/sections/branches-section'
 import { SiteFooter } from '@/components/layout/site-footer'
-import { IntroVideo } from '@/components/intro/intro-video'
 import { ReviewsSection } from '@/components/sections/reviews-section'
 
 export default function Page() {
   return (
     <>
-      <IntroVideo />
       <Navbar />
-      <main>
+      <div className="ambient-glow" aria-hidden="true" />
+      <main className="relative z-10 pb-24">
         <Hero />
         <MenuSection />
         <ReviewsSection />
