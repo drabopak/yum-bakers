@@ -17,6 +17,9 @@ export function CartDrawer() {
   const router = useRouter()
   const pathname = usePathname()
 
+  // If the customer was redirected to /login mid-checkout, reopen the cart
+  // automatically once they're back and authenticated, so they can finish
+  // placing the order without having to find the cart button again.
   useEffect(() => {
     if (pathname === '/login') return
     if (!isAuthenticated) return
@@ -31,6 +34,9 @@ export function CartDrawer() {
     if (lines.length === 0) return
 
     if (!isAuthenticated) {
+      // Cart state lives in the shared CartProvider mounted at the root
+      // layout, so it survives this navigation intact. Remember that a
+      // checkout was in progress, then send them to log in.
       window.sessionStorage.setItem(RESUME_CHECKOUT_KEY, '1')
       closeCart()
       router.push(`/login?redirect=${encodeURIComponent(pathname || '/')}`)
@@ -54,23 +60,25 @@ export function CartDrawer() {
 
   return (
     <>
+      {/* Overlay */}
       <div
         onClick={closeCart}
         aria-hidden="true"
-        className={`fixed inset-0 z-50 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-mahogany/30 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       />
 
+      {/* Drawer */}
       <aside
         role="dialog"
         aria-label="Shopping cart"
         aria-modal="true"
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="glass flex items-center justify-between border-b border-gold/10 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-mahogany">
             <ShoppingBag className="h-5 w-5 text-gold" />
             Your Order {count > 0 && <span className="text-mahogany-soft">({count})</span>}
@@ -79,7 +87,7 @@ export function CartDrawer() {
             type="button"
             onClick={closeCart}
             aria-label="Close cart"
-            className="ios-press rounded-full p-2 text-mahogany transition-colors hover:bg-gold/10"
+            className="rounded-full p-2 text-mahogany transition-colors hover:bg-gold/15"
           >
             <X className="h-5 w-5" />
           </button>
@@ -90,14 +98,14 @@ export function CartDrawer() {
             <div className="flex h-full flex-col items-center justify-center text-center text-mahogany-soft">
               <ShoppingBag className="h-12 w-12 text-gold-soft" />
               <p className="mt-4 font-serif text-lg text-mahogany">Your cart is empty</p>
-              <p className="mt-1 text-sm">Add something from the menu.</p>
+              <p className="mt-1 text-sm">Add something sweet from the menu.</p>
             </div>
           ) : (
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-4">
               {lines.map((line) => (
                 <li
                   key={line.id}
-                  className="ios-shadow flex gap-3 rounded-2xl border border-border bg-white p-3"
+                  className="flex gap-3 rounded-2xl border border-border bg-card p-3 soft-shadow"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -133,7 +141,7 @@ export function CartDrawer() {
                           playDec()
                         }}
                         aria-label="Decrease quantity"
-                        className="ios-press flex h-7 w-7 items-center justify-center rounded-full border border-border text-mahogany transition-colors hover:border-gold hover:bg-gold/10"
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-mahogany transition-colors hover:border-gold hover:bg-gold/10"
                       >
                         <Minus className="h-3.5 w-3.5" />
                       </button>
@@ -147,7 +155,7 @@ export function CartDrawer() {
                           playInc()
                         }}
                         aria-label="Increase quantity"
-                        className="ios-press flex h-7 w-7 items-center justify-center rounded-full border border-border text-mahogany transition-colors hover:border-gold hover:bg-gold/10"
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-mahogany transition-colors hover:border-gold hover:bg-gold/10"
                       >
                         <Plus className="h-3.5 w-3.5" />
                       </button>
@@ -159,14 +167,14 @@ export function CartDrawer() {
           )}
         </div>
 
-        <div className="glass border-t border-gold/10 px-5 py-4" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}>
-          <div className="mb-3 flex items-center justify-between">
+        <div className="border-t border-border px-5 py-4">
+          <div className="mb-4 flex items-center justify-between">
             <span className="font-serif text-lg text-mahogany">Total</span>
             <span className="font-serif text-2xl font-bold text-gold">{formatRs(total)}</span>
           </div>
 
           {!isAuthenticated && lines.length > 0 && (
-            <p className="mb-3 flex items-center gap-2 rounded-2xl border border-gold/20 bg-gold-light/50 px-3 py-2 text-xs font-medium text-mahogany-soft">
+            <p className="mb-3 flex items-center gap-2 rounded-xl border border-gold/30 bg-gold-soft/20 px-3 py-2 text-xs font-medium text-mahogany-soft">
               <Lock className="h-3.5 w-3.5 shrink-0" />
               You&apos;ll be asked to log in to confirm this order.
             </p>
@@ -176,7 +184,7 @@ export function CartDrawer() {
             type="button"
             onClick={handleOrder}
             disabled={lines.length === 0}
-            className="ios-press w-full rounded-2xl bg-gold px-6 py-3.5 text-sm font-semibold text-white ios-shadow-gold disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+            className="w-full rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-white transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isAuthenticated ? 'Proceed to Order' : 'Login to Place Order'}
           </button>

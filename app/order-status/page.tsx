@@ -8,52 +8,74 @@ import { useOrderStore, type Order, type OrderStatus } from '@/data/order-store'
 import { useAuth } from '@/context/auth-context'
 import { formatRs } from '@/components/cart/cart-context'
 import { ConnectionBadge } from '@/components/ui/connection-badge'
+import { OrderBackgroundVideo, type BackgroundVideo } from '@/components/order/order-background-video'
 
 const STEPS: {
   status: OrderStatus
   title: string
   description: string
   icon: typeof Clock
-  eta: string
+  video: BackgroundVideo
+  phrases: string[]
 }[] = [
   {
     status: 'Pending',
-    title: 'Order Received',
-    description: 'Your order is in the kitchen queue.',
+    title: 'Waiting for chef',
+    description: 'Your order has been received and is in the kitchen queue.',
     icon: Clock,
-    eta: '~25 min',
+    video: 'waiting',
+    phrases: ['Your order is in the kitchen queue', 'Good things take a little time', 'Hang tight, we have got you'],
   },
   {
     status: 'Preparing',
-    title: 'Being Prepared',
-    description: 'Our chefs are cooking your order fresh.',
+    title: 'Your food is being prepared',
+    description: 'Our chefs are cooking your order fresh, right now.',
     icon: ChefHat,
-    eta: '~18 min',
+    video: 'chef',
+    phrases: ['Our chefs are cooking your order fresh', 'Every item is made to order', 'Straight from the grill and fryer'],
   },
   {
     status: 'Ready',
-    title: 'Ready for Pickup',
-    description: 'Packed and ready — a rider will pick it up shortly.',
+    title: 'Waiting for delivery man',
+    description: 'Your order is packed and ready — a rider will pick it up shortly.',
     icon: PackageCheck,
-    eta: '~10 min',
+    video: 'waiting',
+    phrases: ['Packed and ready for pickup', 'A rider will be with you shortly'],
   },
   {
     status: 'Out for Delivery',
-    title: 'On the Way',
-    description: 'Your rider is heading to you now.',
+    title: 'Food being delivered',
+    description: 'Your rider is on the way to you.',
     icon: Truck,
-    eta: '~5 min',
+    video: 'delivery',
+    phrases: ['Your rider is on the way', 'Almost there, keep your appetite ready'],
   },
   {
     status: 'Delivered',
-    title: 'Delivered',
+    title: 'Rider is waiting for you / Delivered',
     description: 'Enjoy! Thanks for ordering from Urban Bites.',
     icon: Bike,
-    eta: 'Complete',
+    video: 'delivery',
+    phrases: ['Enjoy your meal', 'Thank you for choosing Urban Bites'],
   },
 ]
 
 const STATUS_ORDER: OrderStatus[] = STEPS.map((step) => step.status)
+
+function CyclingPhrase({ phrases }: { phrases: string[] }) {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % phrases.length), 3200)
+    return () => window.clearInterval(timer)
+  }, [phrases])
+
+  return (
+    <p key={index} className="phrase-fade font-serif text-lg italic text-gold sm:text-xl">
+      {phrases[index]}
+    </p>
+  )
+}
 
 function OrderStatusContent() {
   const searchParams = useSearchParams()
@@ -73,8 +95,8 @@ function OrderStatusContent() {
 
   if (!order) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-background px-4 pb-24 text-center text-mahogany">
-        <div className="ios-shadow rounded-3xl border border-border bg-white p-8">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-white px-4 text-center text-mahogany">
+        <div className="rounded-3xl border border-gold/20 bg-gold-light/50 p-8 backdrop-blur">
           <PackageCheck className="mx-auto h-12 w-12 text-gold" />
           <h1 className="mt-4 font-serif text-xl font-bold">No active order</h1>
           <p className="mt-2 max-w-sm text-sm text-mahogany-soft">
@@ -83,7 +105,7 @@ function OrderStatusContent() {
           </p>
           <Link
             href="/"
-            className="ios-press mt-6 inline-flex items-center gap-2 rounded-2xl bg-gold px-5 py-2.5 text-sm font-semibold text-white ios-shadow-gold"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
           >
             <Home className="h-4 w-4" />
             Back to Menu
@@ -97,32 +119,33 @@ function OrderStatusContent() {
   const currentStep = STEPS[currentIndex]
 
   return (
-    <main className="min-h-screen bg-background px-4 py-6 pb-28 text-mahogany">
-      <div className="mx-auto max-w-md">
+    <main className="relative min-h-screen overflow-hidden bg-white px-4 py-8 text-mahogany sm:px-8">
+      <OrderBackgroundVideo video={currentStep.video} />
+
+      <div className="relative z-10 mx-auto max-w-2xl">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="ios-press inline-flex items-center gap-2 text-sm font-semibold text-mahogany-soft transition-colors hover:text-gold"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-mahogany-soft transition-colors hover:text-gold"
           >
             <Home className="h-4 w-4" />
-            Home
+            Back to Home
           </Link>
           <ConnectionBadge status={connectionStatus} />
         </div>
 
-        <div className="ios-shadow mt-5 rounded-3xl border border-border bg-white p-6 sm:p-8">
+        <div className="mt-6 rounded-3xl border border-gold/20 bg-white/90 p-6 shadow-2xl shadow-gold/10 backdrop-blur-md sm:p-10">
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-gold">
+            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-gold">
               Order {order.id}
             </span>
-            <h1 className="mt-4 font-serif text-2xl font-black text-mahogany">
+            <h1 className="mt-4 font-serif text-2xl font-black uppercase text-mahogany sm:text-3xl">
               {order.status === 'Delivered' ? 'Order Delivered!' : 'Tracking Your Order'}
             </h1>
-            <div className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-gold-light/60 px-4 py-2">
-              <Clock className="h-4 w-4 text-gold" />
-              <span className="text-sm font-semibold text-gold">ETA: {currentStep.eta}</span>
+            <div className="mt-3 min-h-[1.75rem]">
+              <CyclingPhrase key={order.status} phrases={currentStep.phrases} />
             </div>
-            <p className="mt-3 text-sm text-mahogany-soft">
+            <p className="mt-2 text-sm text-mahogany-soft">
               Placed at{' '}
               {new Date(order.createdAt).toLocaleTimeString('en-US', {
                 hour: '2-digit',
@@ -133,20 +156,7 @@ function OrderStatusContent() {
             </p>
           </div>
 
-          {/* Progress bar */}
-          <div className="mt-8 flex items-center gap-1">
-            {STEPS.map((step, index) => (
-              <div
-                key={step.status}
-                className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${
-                  index <= currentIndex ? 'bg-gold' : 'bg-mahogany/10'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Steps */}
-          <div className="mt-8 flex flex-col gap-0">
+          <div className="mt-10 flex flex-col gap-0">
             {STEPS.map((step, index) => {
               const isComplete = index < currentIndex
               const isActive = index === currentIndex
@@ -158,53 +168,46 @@ function OrderStatusContent() {
                 <div key={step.status} className="flex gap-4">
                   <div className="flex flex-col items-center">
                     <span
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border-2 transition-all duration-300 ${
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
                         isComplete
                           ? 'border-emerald-400 bg-emerald-500 text-white'
                           : isActive
-                            ? 'border-gold bg-gold text-white ios-shadow-gold'
-                            : 'border-border bg-white text-mahogany-soft'
+                            ? 'animate-pulse border-gold bg-gold text-white'
+                            : 'border-gold/20 bg-gold/5 text-mahogany-soft'
                       }`}
                     >
-                      {isComplete ? <CheckCircle2 className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
+                      {isComplete ? <CheckCircle2 className="h-6 w-6" /> : <Icon className="h-5 w-5" />}
                     </span>
                     {!isLast && (
                       <span
-                        className={`w-0.5 flex-1 rounded-full ${isComplete ? 'bg-emerald-400' : 'bg-border'}`}
-                        style={{ minHeight: '2rem' }}
+                        className={`w-0.5 flex-1 ${isComplete ? 'bg-emerald-400' : 'bg-gold/15'}`}
+                        style={{ minHeight: '2.5rem' }}
                       />
                     )}
                   </div>
-                  <div className={isLast ? 'pb-0' : 'pb-8'}>
+                  <div className={isLast ? 'pb-0' : 'pb-10'}>
                     <h3
-                      className={`font-serif text-base font-bold ${
+                      className={`font-serif text-lg font-bold ${
                         isActive ? 'text-gold' : isComplete ? 'text-emerald-600' : 'text-mahogany-soft'
                       }`}
                     >
                       {step.title}
                     </h3>
-                    <p className={`mt-0.5 text-sm ${isUpcoming ? 'text-mahogany-soft/60' : 'text-mahogany'}`}>
+                    <p className={`mt-1 text-sm ${isUpcoming ? 'text-mahogany-soft/60' : 'text-mahogany'}`}>
                       {step.description}
                     </p>
-                    {!isUpcoming && (
-                      <span className="mt-1 inline-block text-xs font-semibold text-gold/70">
-                        {step.eta}
-                      </span>
-                    )}
                   </div>
                 </div>
               )
             })}
           </div>
 
-          {/* Delivery address */}
-          <div className="mt-6 rounded-2xl border border-border bg-gold-light/30 p-4">
+          <div className="mt-4 rounded-2xl border border-gold/20 bg-gold-light/30 p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-gold">Delivery Address</p>
             <p className="mt-1 text-sm text-mahogany">{order.address}</p>
           </div>
 
-          {/* Order items */}
-          <div className="mt-3 rounded-2xl border border-border p-4">
+          <div className="mt-4 rounded-2xl border border-gold/20 p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-mahogany-soft">Order Items</p>
             <ul className="mt-2 flex flex-col gap-1">
               {order.items.map((item) => (
